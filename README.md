@@ -1,21 +1,25 @@
 # Complianalyse
 An automated regulatory mapper for Indian laws
 
-# Problem
+## Problem
 Lawyers and indeed even laypersons often have to peruse statutes with the aim of identifying requirements, rights and obligations specific to their business function/purpose.
 
-# Proposed solution
+## Proposed solution
 ### For end users
 To provide users with a list of compliance checklists for their user function specific to the enactment and user function they select/provide. 
 ### As reuasable code
 Considering that LegalRuleML exists as a solution to encode legal statutes into text, reference will be made to (part of) its schema for generating the categories for classification. I will do so by utilising an LLM based approach to generate an initial categorisation of obligations only, similar to what is described in [this paper](https://scholar.google.com/scholar?cluster=14104070510978091644&hl=en&as_sdt=0,5). 
 
-# Features
+### Features
 
 - Checklist will be relative to the specific user/function they select (encoded as "Agent" in the LegalRuleML format)
 - Point in time classification for those aspects of the law which have undergone changes over time so as to provide users a temporal data for the laws that they provide.
 - Knowledge graphs will be generated from the XML schema using either the same LLM and in-context learning or parallelly exploring Python libraries for the [same](https://github.com/Accenture/AmpliGraph)
 
+### Ethical considerations
+
+- App shall provide a disclaimer before executing and at the generated results in each case regarding the results not constituting legal advice.
+- No user data will be sought or stored in any place. The database integration will store the inference results for each statute regardless of user function ("Agent") selected
 
 # Roadmap
 
@@ -46,4 +50,8 @@ Most of these will be tested on my CPU. However, if need arises HuggingFace's In
 
 [] Work on representing knowledge graphs, and identify further Natural Language Processing tasks. 
 
-[] Identify a way to benchmark or validate the performance of an LLM
+[] Identify a way to benchmark or validate the performance of an LLM.
+
+[] Draft a disclaimer for the app to show users.
+
+[] Select copyright license.
