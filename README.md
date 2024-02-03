@@ -55,3 +55,8 @@ Most of these will be tested on my CPU. However, if need arises HuggingFace's In
 [] Draft a disclaimer for the app to show users.
 
 [] Select copyright license.
+
+# Progress
+
+- Was able to test the few-shot learning in-context learning approach via LangChain and OpenAI. Due to token limits on LangChain, using a split approach was necessary.
+- Nevertheless, was able to generate LegalRuleML code via this approach - [available in this notebook (click here)](https://github.com/sankalpsrv/Complianalyse/blob/main/LangChain_FewShot.ipynb)
