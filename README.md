@@ -1,6 +1,22 @@
 # Complianalyse
 An automated regulatory mapper for Indian laws
 
+
+# How to run (proof of concept version)
+
+### Requirements
+
+- OpenAI Key (make an account on openai.com and get keys https://platform.openai.com/api-keys)
+- IndianKanoon API Key (sign up and obtain key via https://api.indiankanoon.org)
+
+1. Install python.
+2. (Optional) Create virtual environment - `virtualenv complianalyse`
+   `source /complianalyse/bin/activate` 
+3. Install requirements via txt file `pip install -r requirements.txt`
+4. run `python main.py` and follow steps
+   
+
+
 ## Problem
 Lawyers and indeed even laypersons often have to peruse statutes with the aim of identifying requirements, rights and obligations specific to their business function/purpose.
 
@@ -44,7 +60,7 @@ Most of these will be tested on my CPU. However, if need arises HuggingFace's In
 
 # TO-DOs
 
-[] Make a draft version of the app for review at the Hackday which will work on a representative set and generate compliances in Markdown/Text format.
+[x] Make a draft version of the app for review at the Hackday which will work on a representative set and generate compliances in Markdown/Text format.
 
 [] Test different LLMs described in the section above for their accuracy. Share results in separate folder as Jupyter Notebooks.
 
@@ -60,3 +76,5 @@ Most of these will be tested on my CPU. However, if need arises HuggingFace's In
 
 - Was able to test the few-shot learning in-context learning approach via LangChain and OpenAI. Due to token limits on LangChain, using a split approach was necessary.
 - Nevertheless, was able to generate LegalRuleML code via this approach - [available in this notebook (click here)](https://github.com/sankalpsrv/Complianalyse/blob/main/LangChain_FewShot.ipynb)
+- The test output generated for the entire Bio-medical Waste Rules is here - [testbmw.txt](https://github.com/sankalpsrv/Complianalyse/blob/main/src/testbmw.txt)
+- This was generated using the script in the ["src" folder of this repository (click here)](https://github.com/sankalpsrv/Complianalyse/blob/main/src/main.py)
