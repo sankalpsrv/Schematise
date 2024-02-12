@@ -1,8 +1,6 @@
 # Schematise (formerly "Complianalyse")
 ### Submission to [The Fifth Elephant's Open Source AI Hackathon](https://hasgeek.com/fifthelephant/open-source-ai-hackathon/)
-An LLM enabled schema generator for statutes in the LegalRuleML format. 
-
-While originally meant as a compliance mapper, this project's author, guided by the [Unix philosophy of "Doing one thing and doing it well"](https://en.wikipedia.org/wiki/Unix_philosophy) has decided to focus on creating something more modular, rather than focus on a single use-case. Accordingly, repository details have been amended with struck out text where it was only applicable to the previous approach. 
+An LLM enabled schema generator for statutes in the Akoma Ntoso format. 
 
 # How to run (proof of concept version)
 
@@ -17,33 +15,6 @@ While originally meant as a compliance mapper, this project's author, guided by 
 3. Install requirements via txt file `pip install -r requirements.txt`
 4. run `python main.py` and follow steps
    
-
-
-## Problem
-Lawyers and indeed even laypersons often have to peruse statutes with the aim of identifying requirements, rights and obligations specific to their business function/purpose.
-
-## Proposed solution
-~### For end users~
-~To provide users with a list of compliance checklists for their user function specific to the enactment and user function they select/provide.~
-~### As reuasable code~
-Considering that LegalRuleML exists as a solution to encode legal statutes into text, reference will be made to its schema for generating the categories for classification. I will do so by utilising an LLM based approach to generate ~an initial categorisation of obligations only,~ an entire statute's schema similar to what is described in [this paper](https://scholar.google.com/scholar?cluster=14104070510978091644&hl=en&as_sdt=0,5).
-
-### Features
-
-~- Checklist will be relative to the specific user/function they select (encoded as "Actor" in the LegalRuleML format)~
-~- Point in time classification for those aspects of the law which have undergone changes over time so as to provide users a temporal data for the laws that they provide.~
-~- Knowledge graphs will be generated from the XML schema using either the same LLM and in-context learning or parallelly exploring Python libraries for the [same](https://github.com/Accenture/AmpliGraph)~
-
-- Users can upload text files/pdfs and download schema in XML format.
-- Will allow users to specify parts of the Schema they wish to have consistency in, such as the XML tags for certain terms which are repeated throughout the statute.
-- Users will be able to use either OpenAI, prompt-engineering, RAG, or a fine-tuned model, since each can generate different outputs and have different inference costs. 
-
-
-### Ethical considerations
-
-- App shall provide a disclaimer before executing and at the generated results in each case regarding the results not constituting legal advice.
-- No user data will be sought or stored in any place. The database integration will store the inference results for each statute ~regardless of user function ("Agent") selected~
-
 # Roadmap
 
 1. Develop a script that can take laws in text or PDF format and divide them by sections.
@@ -60,15 +31,6 @@ Considering that LegalRuleML exists as a solution to encode legal statutes into 
 4. ~Thereafter, building the front-end, most likely in the form of a Flask app that allows users to select a statute or rule/regulation via a search bar. Once the page is loaded with the statute, it will allow users to select a user function ("Actor" in LegalRuleML terms) and open a sidebar with the options to view a graded list of compliances and a link to generate knowledge graphs in an interactive manner.~ Compare each of the approaches and select a default approach, as well as integrate each approach into the application.
 
 5. Lastly, to save inference time, integrations with PostgreSQL/sqlite for the cached versions of laws will be stored in the working directory itself.
-
-### LLMs being compared
-
-~Most of these will be tested on my CPU. However, if need arises~ HuggingFace's Inference API will be made use of, in addition to Azure or any other comparable compute resources provider.
-
-- LegalBert
-- InLegalBert
-- Llama
-- GPT
 
 # TO-DOs
 
