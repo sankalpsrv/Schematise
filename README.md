@@ -20,15 +20,16 @@ An LLM enabled schema generator for statutes in the Akoma Ntoso format.
 1. Develop a script that can take laws in text or PDF format and divide them by sections.
   - This can include LLM based text-classification, however (see next point)
   - For a few standardised formats, this script should be able to do it without reliance on an LLM.
+    - Need to explore to what extent an ANTLR serialisation can be developed for a few standard templates, and also whether it needs to be more dynamic than that.   
 2. Implementing different LLM based text-generation approaches (list is indicative at this point)
   - In-context learning for prompts that generate the LegalRuleML schema. This has already shown some results. [Link to ChatGPT prompts that generated results (will replicate further with programmatic access)](https://chat.openai.com/share/04a01b6f-7829-4765-84f8-9038e9d68666)
   - Implement an approach that uses RAG, by processing the documentation provided for LegalRuleML. 
   - LoRA adaptation using either HuggingFace, [Axolotl](https://github.com/OpenAccess-AI-Collective/axolotl) or Lit-GPT as outlined [here](https://cameronrwolfe.substack.com/p/easily-train-a-specialized-llm-peft).
-  - Also will perform the training of a fine-tuned model on a custom-generated dataset, using an LLM model that allows for using its output for training (for e.g., OpenAI does not). Since In context learning has already shown some results, this will be used to create a fine-tuning dataset for some Environmental Laws (owing to the extensive compliance requirement there, which I have [previously researched on](https://sankalpsrv.in/2021/08/15/dissertation/).
+  - Also will perform the training of a fine-tuned model on a custom-generated dataset, generated via an LLM model that allows for using its output for training (for e.g., OpenAI does not). Since In context learning has already shown some results, this will be used to create a fine-tuning dataset for some Environmental Laws (owing to the extensive compliance requirement there, which I have [previously researched on](https://sankalpsrv.in/2021/08/15/dissertation/).
 
-3. ~Once the backend is developed to the extent that it is accurately generating the schema, the next step will be to integrate it with access to laws. The most feasible option is the IndianKanoon API as it has a standard format for laws that are compliant with the Akoma Ntoso format.~ Upload the models to huggingface and run benchmarking tests for it on a repeated basis in order to identify whether further fine-tuning is required and to what extent.
+3. Upload the models to huggingface and run validation tests for it on a repeated basis in order to identify whether further fine-tuning is required and to what extent.
 
-4. ~Thereafter, building the front-end, most likely in the form of a Flask app that allows users to select a statute or rule/regulation via a search bar. Once the page is loaded with the statute, it will allow users to select a user function ("Actor" in LegalRuleML terms) and open a sidebar with the options to view a graded list of compliances and a link to generate knowledge graphs in an interactive manner.~ Compare each of the approaches and select a default approach, as well as integrate each approach into the application.
+4. Compare each of the approaches and select a default approach, as well as integrate each approach into the application.
 
 5. Lastly, to save inference time, integrations with PostgreSQL/sqlite for the cached versions of laws will be stored in the working directory itself.
 
@@ -36,17 +37,17 @@ An LLM enabled schema generator for statutes in the Akoma Ntoso format.
 
 [x] Make a draft version of the app for review at the Hackday which will work on a representative set and generate compliances in Markdown/Text format.
 
-[] Find a teammember before 15th.
+[-] Find a teammember before 15th.
 
-[] Update project page on hasgeek continuously. 
+[] Need to make a way to parse the templates that could be uploaded by the user.
+
+[x] Update project page on hasgeek continuously. 
 
 [] Identify the correct chunking strategy for RAG. Share approaches as notebook.
 
-[] Test different LLMs described in the section above for their accuracy. Share results in separate folder as Jupyter Notebooks.
+[x] Test different LLMs described in the section above for their accuracy. Share results in separate folder as Jupyter Notebooks.
 
 [] Upload the models as fine-tuned models once satisfactory performance is achieved.
-
-~Work on representing knowledge graphs, and identify further Natural Language Processing tasks.~
 
 [] Identify a way to benchmark or validate the performance of an LLM.
 
@@ -60,3 +61,4 @@ An LLM enabled schema generator for statutes in the Akoma Ntoso format.
 - Nevertheless, was able to generate LegalRuleML code via this approach - [available in this notebook (click here)](https://github.com/sankalpsrv/Complianalyse/blob/main/LangChain_FewShot.ipynb)
 - The test output generated for the entire Bio-medical Waste Rules is here - [testbmw.txt](https://github.com/sankalpsrv/Complianalyse/blob/main/src/testbmw.txt)
 - This was generated using the script in the ["src" folder of this repository (click here)](https://github.com/sankalpsrv/Complianalyse/blob/main/src/main.py)
+- Tested Llama through LangChain and AzureML Endpoints, found that it works via Azure, while LangChain presents some difficulties [click here to view notebook](https://github.com/sankalpsrv/Schematise/blob/main/Notebook-of-approaches/Llama2_AzureMl_CompletionsAPIAndChatAPI(1).ipynb)
