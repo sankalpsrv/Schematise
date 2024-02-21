@@ -17,6 +17,8 @@ An LLM enabled XML generator for statutes in the Akoma Ntoso format.
    
 # Roadmap
 
+<img src = "./Schematise Workflow.1.png">
+
 1. Develop a script that can take laws in text or PDF format and divide them by sections. 
   - This can include LLM based text-classification, however (see next point)
   - For a few standardised formats, this script should be able to do it without reliance on an LLM.
