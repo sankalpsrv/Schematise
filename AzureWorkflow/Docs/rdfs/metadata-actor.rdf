@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE RDF [
+   <!ENTITY dcterms "http://purl.org/dc/terms">  
+   <!ENTITY lrmlmm "http://docs.oasis-open.org/legalruleml/ns/v1.0/metamodel">    
+   <!ENTITY lrmlv "http://docs.oasis-open.org/legalruleml/ns/v1.0/vocab">  
+   <!ENTITY owl "http://www.w3.org/2002/07/owl">    
+   <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns">  
+   <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema">  
+   <!ENTITY rulemm "http://docs.oasis-open.org/legalruleml/ns/v1.0/rule-metamodel">  
+   <!ENTITY xs "http://www.w3.org/2001/XMLSchema">    
+ ]>
+<rdf:RDF 
+  xmlns:lrmlmm="&lrmlmm;#" 
+  xmlns:owl="&owl;#"
+  xmlns:rdf="&rdf;#" 
+  xmlns:rdfs="&rdfs;#" 
+  xmlns:rulemm="&rulemm;#" 
+  xmlns:xs="&xs;"
+  xml:base="&lrmlmm;">
+  <!--<owl:Ontology rdf:about="&lrmlmm;/modules/metadata.rdfs" dc:title="The LegalRuleML MetaModel Metadata vocabulary"/>-->
+  
+
+  <rdfs:Class rdf:about="#Actor">
+    <rdfs:label>actor</rdfs:label>
+    <rdfs:comment>an Agent or a Figure.</rdfs:comment>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about="#Agent">
+    <rdfs:label>agent</rdfs:label>
+    <rdfs:comment>an entity that acts or has the capability to act.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Actor"/>
+    <rdfs:subClassOf rdf:resource="http://purl.org/dc/terms/Agent"/>
+    <rdfs:type rdf:resource="http://purl.org/dc/terms/AgentClass"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about="#Agents">
+    <rdfs:label>agent collection</rdfs:label>
+    <rdfs:comment>a collection where every member is an Agent </rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Collection"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about="&lrmlv;#Author">
+    <rdfs:subClassOf rdf:resource="#Role"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about="&lrmlv;#Editor">
+    <rdfs:subClassOf rdf:resource="#Role"/>
+  </rdfs:Class>
+
+  
+  <rdfs:Class rdf:about="#Figure">
+    <rdfs:label>figure</rdfs:label>
+    <rdfs:comment>an instantiation of a function by an Actor.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Actor"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about="#Figures">
+    <rdfs:label>figure collection</rdfs:label>
+    <rdfs:comment>a collection where every member is a Figure</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Collection"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about="#Function">
+    <rdfs:label>function</rdfs:label>
+    <rdfs:comment>TBD</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Thing"/>
+  </rdfs:Class>  
+  
+  
+<rdfs:Class rdf:about="#Role">
+    <rdfs:label>role</rdfs:label>
+  <rdfs:comment>a function of or part played by an Actor relative to a LegalRuleML expression.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Thing"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about="#Roles">
+    <rdfs:label>role collection</rdfs:label>
+    <rdfs:comment>a collection where every member is a Role.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Collection"/>
+  </rdfs:Class>
+  
+  
+  <rdf:Property rdf:about="#filledBy">
+    <rdfs:label>filled by</rdfs:label>
+    <rdfs:comment>an Actor that fills the Role.</rdfs:comment>
+    <rdfs:domain rdf:resource="#Role"/>
+    <rdfs:range rdf:resource="#Actor"/>        
+  </rdf:Property>
+  
+  <rdf:Property rdf:about="#forExpression">
+    <rdfs:label>for expression</rdfs:label>
+    <rdfs:comment>a LegalRuleML expression for which the Role is responsible (e.g., the expression was created or endorsed by the role).</rdfs:comment>
+    <rdfs:domain rdf:resource="#Role"/>
+    <rdfs:range rdf:resource="#Expression"/>        
+  </rdf:Property>
+  
+  <rdf:Property rdf:about="#hasActor">
+    <rdf:label>has actor</rdf:label>
+    <rdfs:comment>an Actor that has the responsibility to fulfill the function of a Figure.</rdfs:comment>
+    <rdfs:domain rdf:resource="#Figure"/>
+    <rdfs:range rdf:resource="#Actor"/>
+  </rdf:Property>
+  
+  <rdf:Property rdf:about="#hasAgent">
+    <rdf:label>has member agent</rdf:label>
+    <rdfs:comment>an Agent in the collection.</rdfs:comment>
+    <rdfs:domain rdf:resource="#Agents"/>
+    <rdfs:range rdf:resource="#Agent"/>
+    <rdfs:subPropertyOf rdf:resource="#hasMember"/>    
+  </rdf:Property>
+  
+  <rdf:Property rdf:about="#hasAgents">
+    <rdfs:label>has agent collection</rdfs:label>
+    <rdfs:comment>a collection of Agents.</rdfs:comment>
+    <rdfs:domain rdf:resource="#LegalRuleMLDocument"/>
+    <rdfs:range rdf:resource="#Agents"/>
+    <rdfs:subPropertyOf rdf:resource="#hasCollection"/>    
+  </rdf:Property>
+    
+  <rdf:Property rdf:about="#hasFigure">
+    <rdf:label>has member figure</rdf:label>
+    <rdfs:comment>a Figure in the collection.</rdfs:comment>
+    <rdfs:domain rdf:resource="#Figures"/>
+    <rdfs:range rdf:resource="#Figure"/>
+    <rdfs:subPropertyOf rdf:resource="#hasMember"/>    
+  </rdf:Property>
+  
+  <rdf:Property rdf:about="#hasFigures">
+    <rdfs:label>has figure collection</rdfs:label>
+    <rdfs:comment>a collection of Figures.</rdfs:comment>
+    <rdfs:domain rdf:resource="#LegalRuleMLDocument"/>
+    <rdfs:range rdf:resource="#Figures"/>
+    <rdfs:subPropertyOf rdf:resource="#hasCollection"/>    
+  </rdf:Property>
+  
+  <rdf:Property rdf:about="#hasFunction">
+    <rdf:label>has function</rdf:label>
+    <rdfs:comment>the function of a Figure.</rdfs:comment>
+    <rdfs:domain rdf:resource="#Figure"/>
+    <rdfs:range rdf:resource="#Function"/>
+  </rdf:Property>
+      
+  <rdf:Property rdf:about="#hasRole">
+    <rdf:label>has member role</rdf:label>
+    <rdfs:comment>a Role in the collection.</rdfs:comment>
+    <rdfs:domain rdf:resource="#Roles"/>
+    <rdfs:range rdf:resource="#Role"/>
+    <rdfs:subPropertyOf rdf:resource="#hasMember"/>    
+  </rdf:Property>
+
+  <rdf:Property rdf:about="#hasRoles">
+    <rdfs:label>has role collection</rdfs:label>
+    <rdfs:comment>a collection of Roles.</rdfs:comment>
+    <rdfs:domain rdf:resource="#LegalRuleMLDocument"/>
+    <rdfs:range rdf:resource="#Roles"/>
+    <rdfs:subPropertyOf rdf:resource="#hasCollection"/>    
+  </rdf:Property>
+  
+</rdf:RDF>

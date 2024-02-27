@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE RDF [
+   <!ENTITY dcterms "http://purl.org/dc/terms">  
+   <!ENTITY lrmlmm "http://docs.oasis-open.org/legalruleml/ns/v1.0/metamodel">    
+   <!ENTITY lrmlv "http://docs.oasis-open.org/legalruleml/ns/v1.0/vocab">  
+   <!ENTITY owl "http://www.w3.org/2002/07/owl">    
+   <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns">  
+   <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema">  
+   <!ENTITY rulemm "http://docs.oasis-open.org/legalruleml/ns/v1.0/rule-metamodel">  
+   <!ENTITY xs "http://www.w3.org/2001/XMLSchema">    
+ ]>
+<rdf:RDF xmlns:lrmlmm="&lrmlmm;#" xmlns:owl="&owl;#" xmlns:rdf="&rdf;#" xmlns:rdfs="&rdfs;#"
+  xmlns:rulemm="&rulemm;#" xmlns:xs="&xs;" xml:base="&lrmlmm;">
+  <!--<owl:Ontology rdf:about="&lrmlmm;/modules/deontic.rdfs" dc:title="The LegalRuleML MetaModel Deontic Specification vocabulary"/>-->
+
+
+  <rdfs:Class rdf:about="#Compliance">
+    <rdfs:label>compliance</rdfs:label>
+    <rdfs:comment>an indication that an Obligation has been fulfilled or a Prohibition has not been violated.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#DeonticSpecification"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about="#DeonticSpecification">
+    <rdfs:label>deontic specification</rdfs:label>
+    <rdfs:comment>an Obligation, Permission, Prohibition, Right, ....</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&rulemm;#LogicalFormula"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about="#DeonticModality">
+    <rdfs:label>deontic modality</rdfs:label>
+    <rdfs:comment>a modality pertaining to Deontic Specifications.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Modality"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about="#Obligation">
+    <rdfs:label>obligation</rdfs:label>
+    <rdfs:comment>a Deontic Specification for a state, an act, or a course of action to which a Bearer is legally bound, and which, if it is not achieved or performed, results in a Violation.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#DeonticSpecification"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about="#Permission">
+    <rdfs:label>permission</rdfs:label>
+    <rdfs:comment>a Deontic Specification for a state, an act, or a course of action where the Bearer has no Obligation or Prohibition to the contrary. A weak Permission is the absence of the Obligation or Prohibition to the contrary; a strong Permission is an exception or derogation of the Obligation or Prohibition to the contrary.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#DeonticSpecification"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about="#Prohibition">
+    <rdfs:label>prohibition</rdfs:label>
+    <rdfs:comment>a Deontic Specification for a state, an act, or a course of action to which a Bearer is legally bound, and which, if it is achieved or performed, results in a Violation.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#DeonticSpecification"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about="#Reparation">
+    <rdfs:label>reparation</rdfs:label>
+    <rdfs:comment>an indication that a PenaltyStatement is linked with a PrescriptiveStatement. It indicates that a sanction may apply where the PrescriptiveStatement entails a Deontic Specification and when there is a Violation of the Deontic Specification.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&rulemm;#Atom"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about="#Right">
+    <rdfs:label>right</rdfs:label>
+    <rdfs:comment>(see also Permission) a Deontic Specification that gives a Permission to a party (the Bearer) and implies there are Obligations or Prohibitions on other parties (the AuxiliaryParty) such that the Bearer can (eventually) exercise the Right.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#DeonticSpecification"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about="#SuborderList">
+    <rdfs:label>suborder list</rdfs:label>
+    <rdfs:comment>a Deontic Specification for a sequence of Deontic Specifications, i.e., Obligations, Prohibitions, Permissions, Rights and/or Suborder Lists. When a SuborderList holds, a Deontic Specification in the SuborderList holds if all Deontic Specifications that precede it in the SuborderList have been violated.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#DeonticSpecification"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about="#Violation">
+    <rdfs:label>violation</rdfs:label>
+    <rdfs:comment>an indication that an Obligation or Prohibition has been violated.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#DeonticSpecification"/>
+  </rdfs:Class>
+
+  <rdf:Property rdf:about="#appliesModality">
+    <rdfs:label>applies modality</rdfs:label>
+    <rdfs:comment>the deontic mode that applies to a Deontic Specification in a Context or 	Association.</rdfs:comment>
+    <!--FIXME<rdfs:comment>the deontic modality applied by the Context or Association to clarify a Deontic Specification.</rdfs:comment>-->
+    <rdfs:range rdf:resource="#Modality"/>
+    <rdfs:subPropertyOf rdf:resource="#applies"/>    
+  </rdf:Property>
+  
+  
+  <rdf:Property rdf:about="#appliesPenalty">
+    <rdfs:label>applies penalty</rdfs:label>
+    <rdfs:comment>the PenaltyStatement that is linked to a LegalRule in a Reparation.</rdfs:comment>
+    <rdfs:domain rdf:resource="#Reparation"/>
+    <rdfs:range rdf:resource="#PenaltyStatement"/>
+  </rdf:Property>
+    
+  <rdf:Property rdf:about="#DeonticRole">
+    <rdfs:label>deontic role</rdfs:label>
+    <rdfs:comment>a role in a Deontic Specification</rdfs:comment>
+    <rdfs:domain rdf:resource="#DeonticSpecification"/>
+    <rdfs:range rdf:resource="&rulemm;#Term"/>
+  </rdf:Property>
+  
+  <rdf:Property rdf:about="#AuxiliaryParty">
+    <rdfs:label>auxiliary party</rdfs:label>
+    <rdfs:comment>a role in a Deontic Specification to which the Deontic Specification is related.</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="#DeonticRole"/>
+  </rdf:Property>
+  
+  <rdf:Property rdf:about="#Bearer">
+    <rdfs:label>bearer</rdfs:label>
+    <rdfs:comment>a role in a Deontic Specification to which the Deontic Specification is primarily directed.</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="#DeonticRole"/>
+  </rdf:Property>
+    
+
+  <rdf:Property rdf:about="#toPrescriptiveStatement">
+    <rdfs:label>to prescriptive statement</rdfs:label>
+    <rdfs:comment>Athe PrescriptiveStatement that is linked to a PenaltyStatement in a Reparation.</rdfs:comment>
+    <rdfs:domain rdf:resource="#Reparation"/>
+    <rdfs:range rdf:resource="#PrescriptiveStatement"/>
+  </rdf:Property>
+  
+  <!-- Duplicate from context.rdfs for diagramming purposes -->
+  <rdf:Property rdf:about="#applies">
+    <rdfs:domain rdf:resource="#Associator"/>
+    <rdfs:range rdf:resource="#Associable"/>
+  </rdf:Property>
+  
+</rdf:RDF>

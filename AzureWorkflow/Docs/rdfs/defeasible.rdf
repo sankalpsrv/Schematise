@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE RDF [
+   <!ENTITY dcterms "http://purl.org/dc/terms">  
+   <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns">  
+   <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema">  
+   <!ENTITY owl "http://www.w3.org/2002/07/owl">    
+   <!ENTITY xs "http://www.w3.org/2001/XMLSchema">    
+   <!ENTITY rulemm "http://docs.oasis-open.org/legalruleml/ns/v1.0/rule-metamodel">  
+   <!ENTITY lrmlmm "http://docs.oasis-open.org/legalruleml/ns/v1.0/metamodel">    
+   <!ENTITY lrmlv "http://docs.oasis-open.org/legalruleml/ns/v1.0/vocab">  
+ ]>
+<rdf:RDF   xmlns:dc="&dcterms;/"
+  xmlns:rdf="&rdf;#" xmlns:rdfs="&rdfs;#" xmlns:xs="&xs;" xmlns:owl="&owl;#" 
+  xmlns:rulemm="&rulemm;#" xmlns:lrmlmm="&lrmlmm;#" xml:base="&lrmlmm;">
+ <!-- <owl:Ontology rdf:about="&lrmlmm;/modules/defeasible.rdfs" dc:title="The LegalRuleML MetaModel Defeasible Rules vocabulary"/>-->
+
+  <rdfs:Class rdf:about="#DefeasibleStrength">
+    <rdfs:label>defeasible strength</rdfs:label>
+    <rdfs:comment>an indication that, in the absence of information to the contrary and where the antecedent of a Legal Rule holds, the conclusion of the Legal Rule holds.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Strength"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about="#Defeater">
+    <rdfs:label>defeater</rdfs:label>
+    <rdfs:comment>an indication that, in the absence of information to the contrary and where the antecedent of a Legal Rule holds, the opposite of the conclusion of the Legal Rule does not hold.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Strength"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about="#Override">
+    <rdfs:label>override</rdfs:label>
+    <rdfs:comment>an indication that a Legal Rule takes precedence over another Legal Rule. The ordered pair of Legal Rules is an instance in a defeasible priority relation.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&rulemm;#Atom"/>
+  </rdfs:Class>
+
+  <!-- Import from RuleML for diagramming purposes -->  
+  <rdfs:Class rdf:about="&rulemm;#Atom">
+    <rdfs:subClassOf rdf:resource="&rulemm;#Formula"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about="#Strength">
+    <rdfs:label>strength</rdfs:label>
+    <rdfs:comment>the quality of a Legal Rule to resist or not to resist a rebuttal.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Associable"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about="#StrictStrength">
+    <rdfs:label>strict strength</rdfs:label>
+    <rdfs:comment>an indication that where the antecedent of a Legal Rule is indisputable, the conclusion of the Legal Rule is indisputable.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Strength"/>
+  </rdfs:Class>
+  
+  <rdf:Property rdf:about="#appliesStrength">
+    <rdfs:label>applies strength</rdfs:label>
+    <rdfs:comment>a Strength applied by the Context or Association.</rdfs:comment>
+    <rdfs:range rdf:resource="#Strength"/>
+    <rdfs:subPropertyOf rdf:resource="#applies"/>    
+  </rdf:Property>
+  
+  <rdf:Property rdf:about="#hasQualification">
+    <rdfs:label>has qualifications</rdfs:label>
+    <rdfs:comment>a qualification (e.g. an Override) of the Statements.
+    </rdfs:comment>
+    <rdfs:domain rdf:resource="#Statements"/>
+    <rdfs:range rdf:resource="&rulemm;#Formula"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="#hasStrength">
+    <rdfs:label>hasStrength</rdfs:label>
+    <rdfs:comment>the Strength of the Legal Rule.</rdfs:comment>
+    <rdfs:domain rdf:resource="#Statement"/>
+    <rdfs:range rdf:resource="#Strength"/>
+  </rdf:Property>
+ 
+  <rdf:Property rdf:about="#over">
+    <rdfs:label>over</rdfs:label>
+    <rdfs:comment>the Legal Rule with higher priority.</rdfs:comment>
+    <rdfs:domain rdf:resource="#Override"/>
+    <rdfs:range rdf:resource="#Statement"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="#under">
+    <rdfs:label>under</rdfs:label>
+    <rdfs:comment>the Legal Rule with lower priority.</rdfs:comment>
+    <rdfs:domain rdf:resource="#Override"/>
+    <rdfs:range rdf:resource="#Statement"/>
+  </rdf:Property>
+  
+  <!-- Duplicate from context.rdfs for diagramming purposes -->
+  <rdf:Property rdf:about="#applies">
+    <rdfs:domain rdf:resource="#Associator"/>
+    <rdfs:range rdf:resource="#Associable"/>
+  </rdf:Property>
+  
+
+</rdf:RDF>

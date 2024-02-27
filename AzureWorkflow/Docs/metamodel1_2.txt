@@ -1,0 +1,6 @@
+The XML generated is in compliance with the LegalRuleML core specification, and it takes into account the metamodel provided in the XML snippet you provided. The metamodel defines the concepts and relationships that are used in the LegalRuleML language, and it is used to ensure that the XML generated is well-formed and follows the rules of the language.
+
+In the XML generated, the following concepts and relationships are used:
+
+* **DeonticOne**: This concept represents the idea that a norm or rule can impose obligations or prohibitions on a party.
+* **Obligation**: This concept represents a Deontic Specification that gives an Obligation to a party.

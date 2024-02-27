@@ -1,0 +1,6 @@
+The Jurisdiction element is a geographic area or subject-matter over which an Authority applies its legal power. It annotates the legal rules that are applicable to a given area or subject-matter (e.g. the rules applicable only in Scotland respect the all UK legal rules).
+
+We can use <lrml:Jurisdiction> also to specify a limited subject-matter, for instance, legal rules which are applicable only to the executive departments (e.g., an Executive Order in the USA is addressed only to the executive departments or agencies).
+
+Similarly to the jurisdiction, authority qualifies the rules with respect to the authenticity of the provenance of the formal model. Authority is a person or organization with the power to create, endorse, or enforce Legal Norms.
+

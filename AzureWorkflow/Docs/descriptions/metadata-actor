@@ -1,0 +1,5 @@
+An Agent is an entity that acts or has the capability to act. An Agent could be a physical person, a database, or a bot; for this reason we have the sub-element <lrml:hasType> that expresses the category of agent.
+
+The Agent usually is the author of the rule model and he/she/it can act in a particular function (e.g., as senator). A Figure in LegalRuleML is an instantiation of a function by an Actor, where an Actor could be an Agent or a Figure.
+
+In the end we associate the Actor that fills a Role (using <lrml:filledBy>) for a particular rule.

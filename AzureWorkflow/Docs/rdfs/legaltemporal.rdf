@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE RDF [
+   <!ENTITY lrmlmm "http://docs.oasis-open.org/legalruleml/ns/v1.0/metamodel">  
+   <!ENTITY lrmlv "http://docs.oasis-open.org/legalruleml/ns/v1.0/vocab">  
+   <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns">  
+   <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema">  
+   <!ENTITY rulemm "http://docs.oasis-open.org/legalruleml/ns/v1.0/rule-metamodel">  
+   <!ENTITY xs "http://www.w3.org/2001/XMLSchema">    
+ ]>
+<rdf:RDF xmlns:rdf="&rdf;#" xmlns:rdfs="&rdfs;#" xmlns:xs="&xs;"
+  xmlns:rulemm="&rulemm;#" xmlns:lrmlmm="&lrmlmm;#" xml:base="&lrmlmm;">
+  <!--<owl:Ontology rdf:about="&lrmlmm;/modules/legaltemporal.rdfs" dc:title="The LegalRuleML MetaModel Temporal vocabulary"/>-->
+  
+  <rdfs:Class rdf:about="#LegalStatus">
+    <rdfs:label>legal status</rdfs:label>
+    <rdfs:comment>a standing that can apply to a Legal Norm at a Time, e.g.,  "is applicable", "is in force", "has efficacy", "is valid".</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Standing"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about="#StatusDevelopment">
+    <rdfs:label>status development</rdfs:label>
+    <rdfs:comment>a kind of event (e.g., start, end) that changes the Legal Status of a Legal Norm, e.g. making a Legal Norm in force.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&rulemm;#Event"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about="#TemporalCharacteristic">
+    <rdfs:label>temporal characteristic</rdfs:label>
+    <rdfs:comment>a pair of Time with a qualification, which consists of a Legal Status and a Status Development, such that the qualification holds at the Time.</rdfs:comment>    
+    <rdfs:subClassOf rdf:resource="#Associable"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about="#TemporalCharacteristics">
+    <rdfs:label>temporal characteristic collection</rdfs:label>
+    <rdfs:comment>a collection where every member is a TemporalCharacteristic</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Collection"/>
+    <rdfs:subClassOf rdf:resource="#Associable"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about="#Times">
+    <rdfs:label>temporal entity collection</rdfs:label>
+    <rdfs:comment>a collection where every member is a Time.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Collection"/>
+  </rdfs:Class>
+  
+  <lrmlmm:LegalStatus rdf:about="&lrmlv;#Efficacious"/>
+  <lrmlmm:LegalStatus rdf:about="&lrmlv;#InForce"/>
+  <lrmlmm:LegalStatus rdf:about="&lrmlv;#Applicable"/>
+  
+  <lrmlmm:StatusDevelopment rdf:about="&lrmlv;#Starts"/>
+  <lrmlmm:StatusDevelopment rdf:about="&lrmlv;#Ends"/>
+  
+  <rdf:Property rdf:about="#appliesTemporalCharacteristic">
+    <rdfs:label>applies temporal characteristic</rdfs:label>
+    <rdfs:comment>a TemporalCharacteristic applied by the Context or Association.</rdfs:comment>
+    <rdfs:range rdf:resource="#TemporalCharacteristic"/>
+    <rdfs:subPropertyOf rdf:resource="#applies"/>    
+  </rdf:Property>
+  
+  <rdf:Property rdf:about="#appliesTemporalCharacteristics">
+    <rdfs:label>applies temporal characteristic collection</rdfs:label>
+    <rdfs:comment>a collection of TemporalCharacteristics applied by the Context or  Association.</rdfs:comment>
+    <rdfs:range rdf:resource="#TemporalCharacteristics"/>
+    <rdfs:subPropertyOf rdf:resource="#applies"/>    
+  </rdf:Property>
+  
+  <rdf:Property rdf:about="#atTime">
+    <rdfs:label>at time</rdfs:label>
+    <rdfs:comment>the Time of the qualification of a TemporalCharacteristic.</rdfs:comment>
+    <rdfs:domain rdf:resource="#TemporalCharacteristic"/>
+    <rdfs:range rdf:resource="&rulemm;#Time"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="#forStatus">
+    <rdfs:label>for status</rdfs:label>
+    <rdfs:comment>the Legal Status of the qualification in a TemporalCharacteristic.</rdfs:comment>
+    <rdfs:domain rdf:resource="#TemporalCharacteristic"/>
+    <rdfs:range rdf:resource="#LegalStatus"/>
+  </rdf:Property>
+  
+  <rdf:Property rdf:about="#hasStatusDevelopment">
+    <rdfs:label>has status development</rdfs:label>
+    <rdfs:comment>the Status Development of the qualification in a TemporalCharacteristic.</rdfs:comment>
+    <rdfs:domain rdf:resource="#TemporalCharacteristic"/>
+    <rdfs:range rdf:resource="#StatusDevelopment"/>
+  </rdf:Property>
+  
+  <rdf:Property rdf:about="#hasTemporalCharacteristic">
+    <rdfs:label>has member  temporal characteristic</rdfs:label>
+    <rdfs:comment>a TemporalCharacteristic in the collection.</rdfs:comment>
+    <rdfs:domain rdf:resource="#TemporalCharacteristics"/>
+    <rdfs:range rdf:resource="#TemporalCharacteristic"/>
+    <rdfs:subPropertyOf rdf:resource="#hasMember"/>    
+  </rdf:Property>
+  
+  <rdf:Property rdf:about="#hasTemporalCharacteristics">
+    <rdfs:label>has temporal characteristic collection</rdfs:label>
+    <rdfs:comment>a collection of TemporalCharacteristics.</rdfs:comment>
+    <rdfs:domain rdf:resource="#LegalRuleMLDocument"/>
+    <rdfs:range rdf:resource="#TemporalCharacteristics"/>
+    <rdfs:subPropertyOf rdf:resource="#hasCollection"/>    
+  </rdf:Property>
+  
+  <rdf:Property rdf:about="#hasTime">
+    <rdfs:label>has time</rdfs:label>
+    <rdfs:comment>a Time in the collection.</rdfs:comment>
+    <rdfs:domain rdf:resource="#Times"/>
+    <rdfs:range rdf:resource="&rulemm;#Time"/>
+    <rdfs:subPropertyOf rdf:resource="#hasMember"/>    
+  </rdf:Property>
+  
+  <rdf:Property rdf:about="#hasTimes">
+    <rdfs:label>has time collection</rdfs:label>
+    <rdfs:comment>a collection of Times.</rdfs:comment>
+    <rdfs:domain rdf:resource="#LegalRuleMLDocument"/>
+    <rdfs:range rdf:resource="#Times"/>
+    <rdfs:subPropertyOf rdf:resource="#hasCollection"/>    
+  </rdf:Property>
+  
+  <!-- Duplicate from context.rdfs for diagramming purposes -->
+  <rdf:Property rdf:about="#applies">
+    <rdfs:domain rdf:resource="#Associator"/>
+    <rdfs:range rdf:resource="#Associable"/>
+  </rdf:Property>
+  
+</rdf:RDF>

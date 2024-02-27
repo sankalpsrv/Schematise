@@ -1,0 +1,924 @@
+[{"context": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+ <!DOCTYPE RDF [
+   <!ENTITY dcterms \"http://purl.org/dc/terms\">  
+   <!ENTITY rdf \"http://www.w3.org/1999/02/22-rdf-syntax-ns\">  
+   <!ENTITY rdfs \"http://www.w3.org/2000/01/rdf-schema\">  
+   <!ENTITY xs \"http://www.w3.org/2001/XMLSchema\">    
+   <!ENTITY rulemm \"http://docs.oasis-open.org/legalruleml/ns/v1.0/rule-metamodel\">  
+   <!ENTITY lrmlmm \"http://docs.oasis-open.org/legalruleml/ns/v1.0/metamodel\">  
+ ]>
+<rdf:RDF xmlns:rdf=\"&rdf;#\" xmlns:rdfs=\"&rdfs;#\" xmlns:xs=\"&xs;\"
+  xmlns:rulemm=\"&rulemm;#\" xmlns:lrmlmm=\"&lrmlmm;#\" xml:base=\"&lrmlmm;\">
+  <!--<owl:Ontology rdf:about=\"&lrmlmm;/modules/context.rdfs\" dc:title=\"The LegalRuleML MetaModel Context vocabulary\"/>-->
+
+  <rdfs:Class rdf:about=\"#Associable\">
+    <rdfs:label>associable</rdfs:label>
+    <rdfs:comment>an entity that can be applied to other entities.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#Commentable\"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about=\"#Association\">
+    <rdfs:label>association</rdfs:label>
+    <rdfs:comment>a partial description of the extension of some relations where each non-target entity is paired with every target entity.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#Associator\"/>
+    <rdfs:subClassOf rdf:resource=\"#Associable\"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about=\"#Associations\">
+    <rdfs:label>association collection</rdfs:label>
+    <rdfs:comment>a collection where every member is an Assocation.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#Collection\"/>
+    <rdfs:subClassOf rdf:resource=\"#Associable\"/>
+  </rdfs:Class>
+
+
+  <rdfs:Class rdf:about=\"#Associator\">
+    <rdfs:label>associator</rdfs:label>
+    <rdfs:comment>an entity that can apply properties to other entities.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#Commentable\"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about=\"#Context\">
+    <rdfs:label>context</rdfs:label>
+    <rdfs:comment>an application of Associations to their target entities within a Scope.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#Associator\"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about=\"#Scope\">
+    <rdfs:label>scope</rdfs:label>
+    <rdfs:comment>a Statement or Collection of Statements</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#Expression\"/>
+  </rdfs:Class>
+  
+  <rdf:Property rdf:about=\"#applies\">
+    <rdfs:label>applies</rdfs:label>
+    <rdfs:comment>an entity applied by the associator.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#Associator\"/>
+    <rdfs:range rdf:resource=\"#Associable\"/>
+  </rdf:Property>
+  
+  <rdf:Property rdf:about=\"#appliesAssociation\">
+    <rdfs:label>applies association</rdfs:label>
+    <rdfs:comment>an Association applied by the Context.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#Context\"/>
+    <rdfs:range rdf:resource=\"#Association\"/>
+    <rdfs:subPropertyOf rdf:resource=\"#applies\"/>
+  </rdf:Property>
+  
+  <rdf:Property rdf:about=\"#appliesAssociations\">
+    <rdfs:label>applies association collection</rdfs:label>
+    <rdfs:comment>a collection of Associations applied by the Context.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#Context\"/>
+    <rdfs:range rdf:resource=\"#Associations\"/>
+    <rdfs:subPropertyOf rdf:resource=\"#applies\"/>
+  </rdf:Property>
+  
+  <rdf:Property rdf:about=\"#hasAssociation\">
+    <rdfs:label>has member association</rdfs:label>
+    <rdfs:comment>an Association in the collection.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#Associations\"/>
+    <rdfs:range rdf:resource=\"#Association\"/>
+    <rdfs:subPropertyOf rdf:resource=\"#hasMember\"/>    
+  </rdf:Property>
+
+  <rdf:Property rdf:about=\"#hasAssociations\">
+    <rdfs:label>has association collection</rdfs:label>
+    <rdfs:comment>a collection of Associations.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#LegalRuleMLDocument\"/>
+    <rdfs:range rdf:resource=\"#Associations\"/>
+    <rdfs:subPropertyOf rdf:resource=\"#hasCollection\"/>    
+  </rdf:Property>
+
+  <rdf:Property rdf:about=\"#hasContext\">
+    <rdfs:label>has context</rdfs:label>
+    <rdfs:comment>a Context described in the LegalRuleML document.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#LegalRuleMLDocument\"/>
+    <rdfs:range rdf:resource=\"#Context\"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about=\"#inScope\">
+    <rdfs:label>in scope</rdfs:label>
+    <rdfs:comment>the Statement or (collection of) Statements that the Context is applied to.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#Context\"/>
+    <rdfs:range rdf:resource=\"#Scope\"/>
+  </rdf:Property>
+  
+  <rdf:Property rdf:about=\"#toTarget\">
+    <rdfs:label>to target</rdfs:label>
+    <rdfs:comment>the target to which properties are applied by the Association.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#Association\"/>
+    <rdfs:range rdf:resource=\"#Expression\"/>
+  </rdf:Property>
+  
+  
+</rdf:RDF>
+",
+"description": "To avoid redundancy, we have the element <lrml:Association>, which can be used to group meta information referred to several rules or portions of them.
+
+A rule may be differently interpreted according to a variety of parameters associated with a particular situation. For instance, sometimes an alternative interpretation of a textual source of a rule (and its associated formalisation) is associated with a jurisdiction, e.g., regional, national, or international levels, meaning that in one jurisdiction, the rule is interpreted one way, while in another jurisdiction, it is interpreted in another way. Similarly, temporal parameters (e.g., efficacy, enforceability) can change over time due to the normative modifications, and these changes can also affect the strength of the norms.
+
+To represent such parameters, we introduce the <lrml:Context> element, which permits the description of all the characteristics that are linked to a particular rule (e.g., rule1) using the operator <lrml:applies*>, substituting the * with different relationships. In addition to the previous relationships, we also have the following."
+},
+{"defeasible": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+ <!DOCTYPE RDF [
+   <!ENTITY dcterms \"http://purl.org/dc/terms\">  
+   <!ENTITY rdf \"http://www.w3.org/1999/02/22-rdf-syntax-ns\">  
+   <!ENTITY rdfs \"http://www.w3.org/2000/01/rdf-schema\">  
+   <!ENTITY owl \"http://www.w3.org/2002/07/owl\">    
+   <!ENTITY xs \"http://www.w3.org/2001/XMLSchema\">    
+   <!ENTITY rulemm \"http://docs.oasis-open.org/legalruleml/ns/v1.0/rule-metamodel\">  
+   <!ENTITY lrmlmm \"http://docs.oasis-open.org/legalruleml/ns/v1.0/metamodel\">    
+   <!ENTITY lrmlv \"http://docs.oasis-open.org/legalruleml/ns/v1.0/vocab\">  
+ ]>
+<rdf:RDF   xmlns:dc=\"&dcterms;/\"
+  xmlns:rdf=\"&rdf;#\" xmlns:rdfs=\"&rdfs;#\" xmlns:xs=\"&xs;\" xmlns:owl=\"&owl;#\" 
+  xmlns:rulemm=\"&rulemm;#\" xmlns:lrmlmm=\"&lrmlmm;#\" xml:base=\"&lrmlmm;\">
+ <!-- <owl:Ontology rdf:about=\"&lrmlmm;/modules/defeasible.rdfs\" dc:title=\"The LegalRuleML MetaModel Defeasible Rules vocabulary\"/>-->
+
+  <rdfs:Class rdf:about=\"#DefeasibleStrength\">
+    <rdfs:label>defeasible strength</rdfs:label>
+    <rdfs:comment>an indication that, in the absence of information to the contrary and where the antecedent of a Legal Rule holds, the conclusion of the Legal Rule holds.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#Strength\"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about=\"#Defeater\">
+    <rdfs:label>defeater</rdfs:label>
+    <rdfs:comment>an indication that, in the absence of information to the contrary and where the antecedent of a Legal Rule holds, the opposite of the conclusion of the Legal Rule does not hold.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#Strength\"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about=\"#Override\">
+    <rdfs:label>override</rdfs:label>
+    <rdfs:comment>an indication that a Legal Rule takes precedence over another Legal Rule. The ordered pair of Legal Rules is an instance in a defeasible priority relation.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"&rulemm;#Atom\"/>
+  </rdfs:Class>
+
+  <!-- Import from RuleML for diagramming purposes -->  
+  <rdfs:Class rdf:about=\"&rulemm;#Atom\">
+    <rdfs:subClassOf rdf:resource=\"&rulemm;#Formula\"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about=\"#Strength\">
+    <rdfs:label>strength</rdfs:label>
+    <rdfs:comment>the quality of a Legal Rule to resist or not to resist a rebuttal.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#Associable\"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about=\"#StrictStrength\">
+    <rdfs:label>strict strength</rdfs:label>
+    <rdfs:comment>an indication that where the antecedent of a Legal Rule is indisputable, the conclusion of the Legal Rule is indisputable.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#Strength\"/>
+  </rdfs:Class>
+  
+  <rdf:Property rdf:about=\"#appliesStrength\">
+    <rdfs:label>applies strength</rdfs:label>
+    <rdfs:comment>a Strength applied by the Context or Association.</rdfs:comment>
+    <rdfs:range rdf:resource=\"#Strength\"/>
+    <rdfs:subPropertyOf rdf:resource=\"#applies\"/>    
+  </rdf:Property>
+  
+  <rdf:Property rdf:about=\"#hasQualification\">
+    <rdfs:label>has qualifications</rdfs:label>
+    <rdfs:comment>a qualification (e.g. an Override) of the Statements.
+    </rdfs:comment>
+    <rdfs:domain rdf:resource=\"#Statements\"/>
+    <rdfs:range rdf:resource=\"&rulemm;#Formula\"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about=\"#hasStrength\">
+    <rdfs:label>hasStrength</rdfs:label>
+    <rdfs:comment>the Strength of the Legal Rule.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#Statement\"/>
+    <rdfs:range rdf:resource=\"#Strength\"/>
+  </rdf:Property>
+ 
+  <rdf:Property rdf:about=\"#over\">
+    <rdfs:label>over</rdfs:label>
+    <rdfs:comment>the Legal Rule with higher priority.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#Override\"/>
+    <rdfs:range rdf:resource=\"#Statement\"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about=\"#under\">
+    <rdfs:label>under</rdfs:label>
+    <rdfs:comment>the Legal Rule with lower priority.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#Override\"/>
+    <rdfs:range rdf:resource=\"#Statement\"/>
+  </rdf:Property>
+  
+  <!-- Duplicate from context.rdfs for diagramming purposes -->
+  <rdf:Property rdf:about=\"#applies\">
+    <rdfs:domain rdf:resource=\"#Associator\"/>
+    <rdfs:range rdf:resource=\"#Associable\"/>
+  </rdf:Property>
+  
+
+</rdf:RDF>
+",
+"description": "Defeasibility is the property that a conclusion is open in principle to revision in case more evidence to the contrary is provided. Defeasible reasoning is in contrast to monotonic reasoning of propositional logic, where no revision is possible. In addition, defeasible reasoning allows reasoning in the face of contradictions, which gives rise to ex false quodlibet in propositional logic. One application of defeasible reasoning is the ability to model exceptions in a simple and natural way."
+},
+{"deontic": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE RDF [
+   <!ENTITY dcterms \"http://purl.org/dc/terms\">  
+   <!ENTITY lrmlmm \"http://docs.oasis-open.org/legalruleml/ns/v1.0/metamodel\">    
+   <!ENTITY lrmlv \"http://docs.oasis-open.org/legalruleml/ns/v1.0/vocab\">  
+   <!ENTITY owl \"http://www.w3.org/2002/07/owl\">    
+   <!ENTITY rdf \"http://www.w3.org/1999/02/22-rdf-syntax-ns\">  
+   <!ENTITY rdfs \"http://www.w3.org/2000/01/rdf-schema\">  
+   <!ENTITY rulemm \"http://docs.oasis-open.org/legalruleml/ns/v1.0/rule-metamodel\">  
+   <!ENTITY xs \"http://www.w3.org/2001/XMLSchema\">    
+ ]>
+<rdf:RDF xmlns:lrmlmm=\"&lrmlmm;#\" xmlns:owl=\"&owl;#\" xmlns:rdf=\"&rdf;#\" xmlns:rdfs=\"&rdfs;#\"
+  xmlns:rulemm=\"&rulemm;#\" xmlns:xs=\"&xs;\" xml:base=\"&lrmlmm;\">
+  <!--<owl:Ontology rdf:about=\"&lrmlmm;/modules/deontic.rdfs\" dc:title=\"The LegalRuleML MetaModel Deontic Specification vocabulary\"/>-->
+
+
+  <rdfs:Class rdf:about=\"#Compliance\">
+    <rdfs:label>compliance</rdfs:label>
+    <rdfs:comment>an indication that an Obligation has been fulfilled or a Prohibition has not been violated.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#DeonticSpecification\"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about=\"#DeonticSpecification\">
+    <rdfs:label>deontic specification</rdfs:label>
+    <rdfs:comment>an Obligation, Permission, Prohibition, Right, ....</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"&rulemm;#LogicalFormula\"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about=\"#DeonticModality\">
+    <rdfs:label>deontic modality</rdfs:label>
+    <rdfs:comment>a modality pertaining to Deontic Specifications.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#Modality\"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about=\"#Obligation\">
+    <rdfs:label>obligation</rdfs:label>
+    <rdfs:comment>a Deontic Specification for a state, an act, or a course of action to which a Bearer is legally bound, and which, if it is not achieved or performed, results in a Violation.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#DeonticSpecification\"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about=\"#Permission\">
+    <rdfs:label>permission</rdfs:label>
+    <rdfs:comment>a Deontic Specification for a state, an act, or a course of action where the Bearer has no Obligation or Prohibition to the contrary. A weak Permission is the absence of the Obligation or Prohibition to the contrary; a strong Permission is an exception or derogation of the Obligation or Prohibition to the contrary.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#DeonticSpecification\"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about=\"#Prohibition\">
+    <rdfs:label>prohibition</rdfs:label>
+    <rdfs:comment>a Deontic Specification for a state, an act, or a course of action to which a Bearer is legally bound, and which, if it is achieved or performed, results in a Violation.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#DeonticSpecification\"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about=\"#Reparation\">
+    <rdfs:label>reparation</rdfs:label>
+    <rdfs:comment>an indication that a PenaltyStatement is linked with a PrescriptiveStatement. It indicates that a sanction may apply where the PrescriptiveStatement entails a Deontic Specification and when there is a Violation of the Deontic Specification.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"&rulemm;#Atom\"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about=\"#Right\">
+    <rdfs:label>right</rdfs:label>
+    <rdfs:comment>(see also Permission) a Deontic Specification that gives a Permission to a party (the Bearer) and implies there are Obligations or Prohibitions on other parties (the AuxiliaryParty) such that the Bearer can (eventually) exercise the Right.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#DeonticSpecification\"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about=\"#SuborderList\">
+    <rdfs:label>suborder list</rdfs:label>
+    <rdfs:comment>a Deontic Specification for a sequence of Deontic Specifications, i.e., Obligations, Prohibitions, Permissions, Rights and/or Suborder Lists. When a SuborderList holds, a Deontic Specification in the SuborderList holds if all Deontic Specifications that precede it in the SuborderList have been violated.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#DeonticSpecification\"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about=\"#Violation\">
+    <rdfs:label>violation</rdfs:label>
+    <rdfs:comment>an indication that an Obligation or Prohibition has been violated.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#DeonticSpecification\"/>
+  </rdfs:Class>
+
+  <rdf:Property rdf:about=\"#appliesModality\">
+    <rdfs:label>applies modality</rdfs:label>
+    <rdfs:comment>the deontic mode that applies to a Deontic Specification in a Context or 	Association.</rdfs:comment>
+    <!--FIXME<rdfs:comment>the deontic modality applied by the Context or Association to clarify a Deontic Specification.</rdfs:comment>-->
+    <rdfs:range rdf:resource=\"#Modality\"/>
+    <rdfs:subPropertyOf rdf:resource=\"#applies\"/>    
+  </rdf:Property>
+  
+  
+  <rdf:Property rdf:about=\"#appliesPenalty\">
+    <rdfs:label>applies penalty</rdfs:label>
+    <rdfs:comment>the PenaltyStatement that is linked to a LegalRule in a Reparation.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#Reparation\"/>
+    <rdfs:range rdf:resource=\"#PenaltyStatement\"/>
+  </rdf:Property>
+    
+  <rdf:Property rdf:about=\"#DeonticRole\">
+    <rdfs:label>deontic role</rdfs:label>
+    <rdfs:comment>a role in a Deontic Specification</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#DeonticSpecification\"/>
+    <rdfs:range rdf:resource=\"&rulemm;#Term\"/>
+  </rdf:Property>
+  
+  <rdf:Property rdf:about=\"#AuxiliaryParty\">
+    <rdfs:label>auxiliary party</rdfs:label>
+    <rdfs:comment>a role in a Deontic Specification to which the Deontic Specification is related.</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource=\"#DeonticRole\"/>
+  </rdf:Property>
+  
+  <rdf:Property rdf:about=\"#Bearer\">
+    <rdfs:label>bearer</rdfs:label>
+    <rdfs:comment>a role in a Deontic Specification to which the Deontic Specification is primarily directed.</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource=\"#DeonticRole\"/>
+  </rdf:Property>
+    
+
+  <rdf:Property rdf:about=\"#toPrescriptiveStatement\">
+    <rdfs:label>to prescriptive statement</rdfs:label>
+    <rdfs:comment>Athe PrescriptiveStatement that is linked to a PenaltyStatement in a Reparation.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#Reparation\"/>
+    <rdfs:range rdf:resource=\"#PrescriptiveStatement\"/>
+  </rdf:Property>
+  
+  <!-- Duplicate from context.rdfs for diagramming purposes -->
+  <rdf:Property rdf:about=\"#applies\">
+    <rdfs:domain rdf:resource=\"#Associator\"/>
+    <rdfs:range rdf:resource=\"#Associable\"/>
+  </rdf:Property>
+  
+</rdf:RDF>
+",
+"description": "Deontic
+
+One of the functions of norms is to regulate the behavior of their subjects by imposing constraints on what the subjects can or cannot do, what situations are deemed legal, and which ones are considered to be illegal. There is an important difference between the constraints imposed by norms and other types of constraints. Typically, a constraint means that the situation described by the constraint cannot occur. For example, the constraint A means that if -A (the negation of A, that is, the opposite of A) occurs, then we have a contradiction, or in other terms, we have an impossible situation. Norms, on the other hand, can be violated. Namely, given a norm that imposes the constraint A, yet we have a situation where -A, we do not have a contradiction, but rather a Violation (see also the glossary), or in other terms we have a situation that is classified as \"illegal\". From a logical point of view, we cannot represent the constraint imposed by a norm simply by A, since the conjunction of A and -A is a contradiction. Thus we need a mechanism to identify the constraints imposed by norms. This mechanism is provided by modal (deontic) operators.
+
+The operators of Obligation, Prohibition and Permission are typically considered the basic ones, but further refinements are possible, for example, two types of permissions have been discussed in the literature on deontic logic: weak permission (or negative permission) and strong permission (or positive permission). Weak permission corresponds to the idea that some A is permitted if -A is not provable as mandatory. In other words, something is allowed by a code only when it is not prohibited by that code [41]. The concept of strong permission is more complicated, as it amounts to the idea that some A is permitted by a code if and only if such a code explicitly states that A is permitted, typically as an exception to the prohibition of A or the obligation of its contrary, i.e., -A. It follows that a strong permission is not derived from the absence of a prohibition, but is explicitly formulated in a permissive (prescriptive) norm [1]. For example, an explicit permissive norm is a sign \"U-turn permitted\" at a traffic light, which derogates the (general) prohibition on U-turns at traffic lights."
+},
+{"legaltemporal": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+ <!DOCTYPE RDF [
+   <!ENTITY lrmlmm \"http://docs.oasis-open.org/legalruleml/ns/v1.0/metamodel\">  
+   <!ENTITY lrmlv \"http://docs.oasis-open.org/legalruleml/ns/v1.0/vocab\">  
+   <!ENTITY rdf \"http://www.w3.org/1999/02/22-rdf-syntax-ns\">  
+   <!ENTITY rdfs \"http://www.w3.org/2000/01/rdf-schema\">  
+   <!ENTITY rulemm \"http://docs.oasis-open.org/legalruleml/ns/v1.0/rule-metamodel\">  
+   <!ENTITY xs \"http://www.w3.org/2001/XMLSchema\">    
+ ]>
+<rdf:RDF xmlns:rdf=\"&rdf;#\" xmlns:rdfs=\"&rdfs;#\" xmlns:xs=\"&xs;\"
+  xmlns:rulemm=\"&rulemm;#\" xmlns:lrmlmm=\"&lrmlmm;#\" xml:base=\"&lrmlmm;\">
+  <!--<owl:Ontology rdf:about=\"&lrmlmm;/modules/legaltemporal.rdfs\" dc:title=\"The LegalRuleML MetaModel Temporal vocabulary\"/>-->
+  
+  <rdfs:Class rdf:about=\"#LegalStatus\">
+    <rdfs:label>legal status</rdfs:label>
+    <rdfs:comment>a standing that can apply to a Legal Norm at a Time, e.g.,  \"is applicable\", \"is in force\", \"has efficacy\", \"is valid\".</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#Standing\"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about=\"#StatusDevelopment\">
+    <rdfs:label>status development</rdfs:label>
+    <rdfs:comment>a kind of event (e.g., start, end) that changes the Legal Status of a Legal Norm, e.g. making a Legal Norm in force.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"&rulemm;#Event\"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about=\"#TemporalCharacteristic\">
+    <rdfs:label>temporal characteristic</rdfs:label>
+    <rdfs:comment>a pair of Time with a qualification, which consists of a Legal Status and a Status Development, such that the qualification holds at the Time.</rdfs:comment>    
+    <rdfs:subClassOf rdf:resource=\"#Associable\"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about=\"#TemporalCharacteristics\">
+    <rdfs:label>temporal characteristic collection</rdfs:label>
+    <rdfs:comment>a collection where every member is a TemporalCharacteristic</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#Collection\"/>
+    <rdfs:subClassOf rdf:resource=\"#Associable\"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about=\"#Times\">
+    <rdfs:label>temporal entity collection</rdfs:label>
+    <rdfs:comment>a collection where every member is a Time.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#Collection\"/>
+  </rdfs:Class>
+  
+  <lrmlmm:LegalStatus rdf:about=\"&lrmlv;#Efficacious\"/>
+  <lrmlmm:LegalStatus rdf:about=\"&lrmlv;#InForce\"/>
+  <lrmlmm:LegalStatus rdf:about=\"&lrmlv;#Applicable\"/>
+  
+  <lrmlmm:StatusDevelopment rdf:about=\"&lrmlv;#Starts\"/>
+  <lrmlmm:StatusDevelopment rdf:about=\"&lrmlv;#Ends\"/>
+  
+  <rdf:Property rdf:about=\"#appliesTemporalCharacteristic\">
+    <rdfs:label>applies temporal characteristic</rdfs:label>
+    <rdfs:comment>a TemporalCharacteristic applied by the Context or Association.</rdfs:comment>
+    <rdfs:range rdf:resource=\"#TemporalCharacteristic\"/>
+    <rdfs:subPropertyOf rdf:resource=\"#applies\"/>    
+  </rdf:Property>
+  
+  <rdf:Property rdf:about=\"#appliesTemporalCharacteristics\">
+    <rdfs:label>applies temporal characteristic collection</rdfs:label>
+    <rdfs:comment>a collection of TemporalCharacteristics applied by the Context or  Association.</rdfs:comment>
+    <rdfs:range rdf:resource=\"#TemporalCharacteristics\"/>
+    <rdfs:subPropertyOf rdf:resource=\"#applies\"/>    
+  </rdf:Property>
+  
+  <rdf:Property rdf:about=\"#atTime\">
+    <rdfs:label>at time</rdfs:label>
+    <rdfs:comment>the Time of the qualification of a TemporalCharacteristic.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#TemporalCharacteristic\"/>
+    <rdfs:range rdf:resource=\"&rulemm;#Time\"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about=\"#forStatus\">
+    <rdfs:label>for status</rdfs:label>
+    <rdfs:comment>the Legal Status of the qualification in a TemporalCharacteristic.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#TemporalCharacteristic\"/>
+    <rdfs:range rdf:resource=\"#LegalStatus\"/>
+  </rdf:Property>
+  
+  <rdf:Property rdf:about=\"#hasStatusDevelopment\">
+    <rdfs:label>has status development</rdfs:label>
+    <rdfs:comment>the Status Development of the qualification in a TemporalCharacteristic.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#TemporalCharacteristic\"/>
+    <rdfs:range rdf:resource=\"#StatusDevelopment\"/>
+  </rdf:Property>
+  
+  <rdf:Property rdf:about=\"#hasTemporalCharacteristic\">
+    <rdfs:label>has member  temporal characteristic</rdfs:label>
+    <rdfs:comment>a TemporalCharacteristic in the collection.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#TemporalCharacteristics\"/>
+    <rdfs:range rdf:resource=\"#TemporalCharacteristic\"/>
+    <rdfs:subPropertyOf rdf:resource=\"#hasMember\"/>    
+  </rdf:Property>
+  
+  <rdf:Property rdf:about=\"#hasTemporalCharacteristics\">
+    <rdfs:label>has temporal characteristic collection</rdfs:label>
+    <rdfs:comment>a collection of TemporalCharacteristics.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#LegalRuleMLDocument\"/>
+    <rdfs:range rdf:resource=\"#TemporalCharacteristics\"/>
+    <rdfs:subPropertyOf rdf:resource=\"#hasCollection\"/>    
+  </rdf:Property>
+  
+  <rdf:Property rdf:about=\"#hasTime\">
+    <rdfs:label>has time</rdfs:label>
+    <rdfs:comment>a Time in the collection.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#Times\"/>
+    <rdfs:range rdf:resource=\"&rulemm;#Time\"/>
+    <rdfs:subPropertyOf rdf:resource=\"#hasMember\"/>    
+  </rdf:Property>
+  
+  <rdf:Property rdf:about=\"#hasTimes\">
+    <rdfs:label>has time collection</rdfs:label>
+    <rdfs:comment>a collection of Times.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#LegalRuleMLDocument\"/>
+    <rdfs:range rdf:resource=\"#Times\"/>
+    <rdfs:subPropertyOf rdf:resource=\"#hasCollection\"/>    
+  </rdf:Property>
+  
+  <!-- Duplicate from context.rdfs for diagramming purposes -->
+  <rdf:Property rdf:about=\"#applies\">
+    <rdfs:domain rdf:resource=\"#Associator\"/>
+    <rdfs:range rdf:resource=\"#Associable\"/>
+  </rdf:Property>
+  
+</rdf:RDF>
+",
+"description": "Legal texts are often amended as a society or judicial system evolves. Norms and rules are valid in a particular interval of time and with respect to three main legal axes: when they come into force (entry), when they effect the intended or desired result (efficacy), and when they apply (applicability). In this section, we model the external temporal dimensions of the norms (e.g., when the norm is valid) and not the temporal dimensions of the complex events that are the content of the textual provision (e.g., when a person is to present a tax application). Therefore, we only model the intervals and temporal parameters that define the period of validity of the rules. Moreover, in keeping with the sources, it is important to link the temporal parameters to any part of a rule (e.g. atom, rel, ind, if, then, etc.) with a very fine granularity."
+},
+{"metadata-actor": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE RDF [
+   <!ENTITY dcterms \"http://purl.org/dc/terms\">  
+   <!ENTITY lrmlmm \"http://docs.oasis-open.org/legalruleml/ns/v1.0/metamodel\">    
+   <!ENTITY lrmlv \"http://docs.oasis-open.org/legalruleml/ns/v1.0/vocab\">  
+   <!ENTITY owl \"http://www.w3.org/2002/07/owl\">    
+   <!ENTITY rdf \"http://www.w3.org/1999/02/22-rdf-syntax-ns\">  
+   <!ENTITY rdfs \"http://www.w3.org/2000/01/rdf-schema\">  
+   <!ENTITY rulemm \"http://docs.oasis-open.org/legalruleml/ns/v1.0/rule-metamodel\">  
+   <!ENTITY xs \"http://www.w3.org/2001/XMLSchema\">    
+ ]>
+<rdf:RDF 
+  xmlns:lrmlmm=\"&lrmlmm;#\" 
+  xmlns:owl=\"&owl;#\"
+  xmlns:rdf=\"&rdf;#\" 
+  xmlns:rdfs=\"&rdfs;#\" 
+  xmlns:rulemm=\"&rulemm;#\" 
+  xmlns:xs=\"&xs;\"
+  xml:base=\"&lrmlmm;\">
+  <!--<owl:Ontology rdf:about=\"&lrmlmm;/modules/metadata.rdfs\" dc:title=\"The LegalRuleML MetaModel Metadata vocabulary\"/>-->
+  
+
+  <rdfs:Class rdf:about=\"#Actor\">
+    <rdfs:label>actor</rdfs:label>
+    <rdfs:comment>an Agent or a Figure.</rdfs:comment>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about=\"#Agent\">
+    <rdfs:label>agent</rdfs:label>
+    <rdfs:comment>an entity that acts or has the capability to act.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#Actor\"/>
+    <rdfs:subClassOf rdf:resource=\"http://purl.org/dc/terms/Agent\"/>
+    <rdfs:type rdf:resource=\"http://purl.org/dc/terms/AgentClass\"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about=\"#Agents\">
+    <rdfs:label>agent collection</rdfs:label>
+    <rdfs:comment>a collection where every member is an Agent </rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#Collection\"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about=\"&lrmlv;#Author\">
+    <rdfs:subClassOf rdf:resource=\"#Role\"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about=\"&lrmlv;#Editor\">
+    <rdfs:subClassOf rdf:resource=\"#Role\"/>
+  </rdfs:Class>
+
+  
+  <rdfs:Class rdf:about=\"#Figure\">
+    <rdfs:label>figure</rdfs:label>
+    <rdfs:comment>an instantiation of a function by an Actor.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#Actor\"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about=\"#Figures\">
+    <rdfs:label>figure collection</rdfs:label>
+    <rdfs:comment>a collection where every member is a Figure</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#Collection\"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about=\"#Function\">
+    <rdfs:label>function</rdfs:label>
+    <rdfs:comment>TBD</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#Thing\"/>
+  </rdfs:Class>  
+  
+  
+<rdfs:Class rdf:about=\"#Role\">
+    <rdfs:label>role</rdfs:label>
+  <rdfs:comment>a function of or part played by an Actor relative to a LegalRuleML expression.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#Thing\"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about=\"#Roles\">
+    <rdfs:label>role collection</rdfs:label>
+    <rdfs:comment>a collection where every member is a Role.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#Collection\"/>
+  </rdfs:Class>
+  
+  
+  <rdf:Property rdf:about=\"#filledBy\">
+    <rdfs:label>filled by</rdfs:label>
+    <rdfs:comment>an Actor that fills the Role.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#Role\"/>
+    <rdfs:range rdf:resource=\"#Actor\"/>        
+  </rdf:Property>
+  
+  <rdf:Property rdf:about=\"#forExpression\">
+    <rdfs:label>for expression</rdfs:label>
+    <rdfs:comment>a LegalRuleML expression for which the Role is responsible (e.g., the expression was created or endorsed by the role).</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#Role\"/>
+    <rdfs:range rdf:resource=\"#Expression\"/>        
+  </rdf:Property>
+  
+  <rdf:Property rdf:about=\"#hasActor\">
+    <rdf:label>has actor</rdf:label>
+    <rdfs:comment>an Actor that has the responsibility to fulfill the function of a Figure.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#Figure\"/>
+    <rdfs:range rdf:resource=\"#Actor\"/>
+  </rdf:Property>
+  
+  <rdf:Property rdf:about=\"#hasAgent\">
+    <rdf:label>has member agent</rdf:label>
+    <rdfs:comment>an Agent in the collection.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#Agents\"/>
+    <rdfs:range rdf:resource=\"#Agent\"/>
+    <rdfs:subPropertyOf rdf:resource=\"#hasMember\"/>    
+  </rdf:Property>
+  
+  <rdf:Property rdf:about=\"#hasAgents\">
+    <rdfs:label>has agent collection</rdfs:label>
+    <rdfs:comment>a collection of Agents.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#LegalRuleMLDocument\"/>
+    <rdfs:range rdf:resource=\"#Agents\"/>
+    <rdfs:subPropertyOf rdf:resource=\"#hasCollection\"/>    
+  </rdf:Property>
+    
+  <rdf:Property rdf:about=\"#hasFigure\">
+    <rdf:label>has member figure</rdf:label>
+    <rdfs:comment>a Figure in the collection.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#Figures\"/>
+    <rdfs:range rdf:resource=\"#Figure\"/>
+    <rdfs:subPropertyOf rdf:resource=\"#hasMember\"/>    
+  </rdf:Property>
+  
+  <rdf:Property rdf:about=\"#hasFigures\">
+    <rdfs:label>has figure collection</rdfs:label>
+    <rdfs:comment>a collection of Figures.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#LegalRuleMLDocument\"/>
+    <rdfs:range rdf:resource=\"#Figures\"/>
+    <rdfs:subPropertyOf rdf:resource=\"#hasCollection\"/>    
+  </rdf:Property>
+  
+  <rdf:Property rdf:about=\"#hasFunction\">
+    <rdf:label>has function</rdf:label>
+    <rdfs:comment>the function of a Figure.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#Figure\"/>
+    <rdfs:range rdf:resource=\"#Function\"/>
+  </rdf:Property>
+      
+  <rdf:Property rdf:about=\"#hasRole\">
+    <rdf:label>has member role</rdf:label>
+    <rdfs:comment>a Role in the collection.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#Roles\"/>
+    <rdfs:range rdf:resource=\"#Role\"/>
+    <rdfs:subPropertyOf rdf:resource=\"#hasMember\"/>    
+  </rdf:Property>
+
+  <rdf:Property rdf:about=\"#hasRoles\">
+    <rdfs:label>has role collection</rdfs:label>
+    <rdfs:comment>a collection of Roles.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#LegalRuleMLDocument\"/>
+    <rdfs:range rdf:resource=\"#Roles\"/>
+    <rdfs:subPropertyOf rdf:resource=\"#hasCollection\"/>    
+  </rdf:Property>
+  
+</rdf:RDF>
+",
+
+"description": "An Agent is an entity that acts or has the capability to act. An Agent could be a physical person, a database, or a bot; for this reason we have the sub-element <lrml:hasType> that expresses the category of agent.
+
+The Agent usually is the author of the rule model and he/she/it can act in a particular function (e.g., as senator). A Figure in LegalRuleML is an instantiation of a function by an Actor, where an Actor could be an Agent or a Figure.
+
+In the end we associate the Actor that fills a Role (using <lrml:filledBy>) for a particular rule."},
+{"metadata-jurisdiction-authority": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE RDF [
+   <!ENTITY dcterms \"http://purl.org/dc/terms\">  
+   <!ENTITY lrmlmm \"http://docs.oasis-open.org/legalruleml/ns/v1.0/metamodel\">    
+   <!ENTITY lrmlv \"http://docs.oasis-open.org/legalruleml/ns/v1.0/vocab\">  
+   <!ENTITY owl \"http://www.w3.org/2002/07/owl\">    
+   <!ENTITY rdf \"http://www.w3.org/1999/02/22-rdf-syntax-ns\">  
+   <!ENTITY rdfs \"http://www.w3.org/2000/01/rdf-schema\">  
+   <!ENTITY rulemm \"http://docs.oasis-open.org/legalruleml/ns/v1.0/rule-metamodel\">  
+   <!ENTITY xs \"http://www.w3.org/2001/XMLSchema\">    
+ ]>
+<rdf:RDF 
+  xmlns:lrmlmm=\"&lrmlmm;#\" 
+  xmlns:owl=\"&owl;#\"
+  xmlns:rdf=\"&rdf;#\" 
+  xmlns:rdfs=\"&rdfs;#\" 
+  xmlns:rulemm=\"&rulemm;#\" 
+  xmlns:xs=\"&xs;\"
+  xml:base=\"&lrmlmm;\">
+  <!--<owl:Ontology rdf:about=\"&lrmlmm;/modules/metadata.rdfs\" dc:title=\"The LegalRuleML MetaModel Metadata vocabulary\"/>-->
+  
+
+  
+  <rdfs:Class rdf:about=\"#Authorities\">
+    <rdfs:label>authority collection</rdfs:label>
+    <rdfs:comment>a collection where every member is an Authority</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#Collection\"/>    
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about=\"#Authority\">
+    <rdfs:label>authority</rdfs:label>
+    <rdfs:comment>a person or organization with the power to create, endorse, or enforce Legal Norms.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#Associable\"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about=\"#Jurisdiction\">
+    <rdfs:label>jurisdiction</rdfs:label>
+    <rdfs:comment>a geographic area or subject-matter over which an Authority applies its legal power.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#Associable\"/>
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about=\"http://purl.org/dc/terms/Jurisdiction\">
+      </rdfs:Class>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf rdf:resource=\"http://purl.org/vocab/frbr/core#Concept\"/>    
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about=\"#Jurisdictions\">
+    <rdfs:label>jursidiction collection</rdfs:label>
+    <rdfs:comment>a collection where every member is a Jurisdiction.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#Collection\"/>    
+  </rdfs:Class>
+    
+  <rdf:Property rdf:about=\"#appliesAuthority\">
+    <rdfs:label>applies authority</rdfs:label>
+    <rdfs:comment>an Authority applied by the Context or Association.</rdfs:comment>
+    <rdfs:range rdf:resource=\"#Authority\"/>
+    <rdfs:subPropertyOf rdf:resource=\"#applies\"/>
+  </rdf:Property>
+    
+  <rdf:Property rdf:about=\"#appliesJurisdiction\">
+    <rdfs:label>applies jurisdiction</rdfs:label>
+    <rdfs:comment>a Jurisdiction applied by the Context or Association.</rdfs:comment>
+    <rdfs:range rdf:resource=\"#Jurisdiction\"/>    
+    <rdfs:subPropertyOf rdf:resource=\"#applies\"/>
+  </rdf:Property>
+  
+  
+  <rdf:Property rdf:about=\"#hasAuthorities\">
+    <rdfs:label>has authority collection</rdfs:label>
+    <rdfs:comment>A collection of authorities associated with the
+      subject LegalRuleML document.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#LegalRuleMLDocument\"/>
+    <rdfs:range rdf:resource=\"#Authorities\"/>
+    <rdfs:subPropertyOf rdf:resource=\"#hasCollection\"/>    
+  </rdf:Property>
+  
+  <rdf:Property rdf:about=\"#hasAuthority\">
+    <rdf:label>has member authority</rdf:label>
+    <rdfs:comment>An authority which is a member of the subject collection.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#Authorities\"/>
+    <rdfs:range rdf:resource=\"#Authority\"/>
+    <rdfs:subPropertyOf rdf:resource=\"#hasMember\"/>    
+  </rdf:Property>
+  
+  
+  <rdf:Property rdf:about=\"#hasJurisdiction\">
+    <rdf:label>has member jurisdiction</rdf:label>
+    <rdfs:comment>a Jurisdiction in the collection.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#Jurisdictions\"/>
+    <rdfs:range rdf:resource=\"#Jurisdiction\"/>
+    <rdfs:subPropertyOf rdf:resource=\"#hasMember\"/>    
+  </rdf:Property>
+
+  <rdf:Property rdf:about=\"#hasJurisdictions\">
+    <rdfs:label>has jurisdiction collection</rdfs:label>
+    <rdfs:comment>a collection of Jurisdictions.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#LegalRuleMLDocument\"/>
+    <rdfs:range rdf:resource=\"#Jurisdictions\"/>
+    <rdfs:subPropertyOf rdf:resource=\"#hasCollection\"/>    
+  </rdf:Property>
+
+  <!-- Duplicate from context.rdfs for diagramming purposes -->
+  <rdf:Property rdf:about=\"#applies\">
+    <rdfs:domain rdf:resource=\"#Associator\"/>
+    <rdfs:range rdf:resource=\"#Associable\"/>
+  </rdf:Property>
+  
+</rdf:RDF>
+", "description":"The Jurisdiction element is a geographic area or subject-matter over which an Authority applies its legal power. It annotates the legal rules that are applicable to a given area or subject-matter (e.g. the rules applicable only in Scotland respect the all UK legal rules).
+
+We can use <lrml:Jurisdiction> also to specify a limited subject-matter, for instance, legal rules which are applicable only to the executive departments (e.g., an Executive Order in the USA is addressed only to the executive departments or agencies).
+
+Similarly to the jurisdiction, authority qualifies the rules with respect to the authenticity of the provenance of the formal model. Authority is a person or organization with the power to create, endorse, or enforce Legal Norms."},
+{"statement": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+ <!DOCTYPE RDF [
+   <!ENTITY owl \"http://www.w3.org/2002/07/owl\">  
+   <!ENTITY rdf \"http://www.w3.org/1999/02/22-rdf-syntax-ns\">  
+   <!ENTITY rdfs \"http://www.w3.org/2000/01/rdf-schema\">  
+   <!ENTITY xs \"http://www.w3.org/2001/XMLSchema\">  
+   <!ENTITY rulemm \"http://docs.oasis-open.org/legalruleml/ns/v1.0/rule-metamodel\">  
+   <!ENTITY lrmlmm \"http://docs.oasis-open.org/legalruleml/ns/v1.0/metamodel\">  
+  
+ ]>
+<rdf:RDF 
+  xmlns:lrmlmm=\"&lrmlmm;#\" 
+  xmlns:owl=\"&owl;#\" 
+  xmlns:rdf=\"&rdf;#\" 
+  xmlns:rdfs=\"&rdfs;#\" 
+  xmlns:rulemm=\"&rulemm;#\"
+  xmlns:xs=\"&xs;\" 
+  xml:base=\"&lrmlmm;\">
+<!--  <owl:Ontology rdf:about=\"&lrmlmm;/modules/statement.rdfs\" dc:title=\"The LegalRuleML MetaModel Statement vocabulary\"/> -->
+
+  <rdfs:Class rdf:about=\"#ConstitutiveStatement\">
+    <rdfs:label>constitutive statement</rdfs:label>
+    <rdfs:comment>a Legal Statement that defines concepts and does not prescribe behaviours.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#RuleStatement\"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about=\"#FactualStatement\">
+    <rdfs:label>factual statement</rdfs:label>
+    <rdfs:comment>an expression of fact.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#LogicalFormulaStatement\"/>
+  </rdfs:Class>
+    
+  <rdfs:Class rdf:about=\"#LogicalFormulaStatement\">
+    <rdfs:label>logical formula statement</rdfs:label>
+    <rdfs:comment>a statement modelled by a logical formula.</rdfs:comment>
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about=\"#Statement\"/>      
+    </rdfs:subClassOf>
+    <owl:disjointWith rdf:resource=\"#RuleStatement\"/>
+  </rdfs:Class>
+    
+  <rdfs:Class rdf:about=\"#OverrideStatement\">
+    <rdfs:label>override statement</rdfs:label>
+    <rdfs:comment>a Legal Statement of an Override.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#LogicalFormulaStatement\"/>
+    <owl:disjointWith rdf:resource=\"#FactualStatement\"/>
+    <owl:disjointWith rdf:resource=\"#PenaltyStatement\"/>
+    <owl:disjointWith rdf:resource=\"#ReparationStatement\"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about=\"#Paraphrase\">
+    <rdfs:label>paraphrase</rdfs:label>
+    <rdfs:comment>a natural language rendering of a Legal Rule or fragment of it that is an alternative to its Legal Source(s).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#XMLLiteralWrapper\"/>    
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about=\"#PenaltyStatement\">
+    <rdfs:label>penalty statement</rdfs:label>
+    <rdfs:comment>a Legal Statement of a sanction (e.g. a punishment or a correction).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#LogicalFormulaStatement\"/>
+    <owl:disjointWith rdf:resource=\"#FactualStatement\"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about=\"#PrescriptiveStatement\">
+    <rdfs:label>prescriptive statement</rdfs:label>
+    <rdfs:comment>a Legal Statement which prescribes behaviours, e.g. with Permissions, Obligations, or Prohibitions on states, actions, or courses of actions.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#RuleStatement\"/>
+    <owl:disjointWith rdf:resource=\"#ConstitutiveStatement\"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about=\"#ReparationStatement\">
+    <rdfs:label>reparation statement</rdfs:label>
+    <rdfs:comment>a Legal Statement of a Reparation.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#LogicalFormulaStatement\"/>
+    <owl:disjointWith rdf:resource=\"#FactualStatement\"/>
+    <owl:disjointWith rdf:resource=\"#PenaltyStatement\"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about=\"#RuleStatement\">
+    <rdfs:label>rule statement</rdfs:label>
+    <rdfs:comment>a Legal Statement modelled by a Legal Rule.</rdfs:comment>
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about=\"#Statement\"/>      
+    </rdfs:subClassOf>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about=\"#Scope\">
+    <rdfs:label>scope</rdfs:label>
+    <rdfs:comment>a statement or statement collection</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#Expression\"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about=\"#Statement\">
+    <rdfs:label>statement</rdfs:label>
+    <rdfs:comment>a Legal Statement or a FactualStatement.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#Scope\"/>
+    <rdfs:subClassOf rdf:resource=\"#Alternative\"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about=\"#Statements\">
+    <rdfs:label>statement collection</rdfs:label>
+    <rdfs:comment>a collection where every member is a Legal Statement or a FactualStatement.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#Collection\"/>
+    <rdfs:subClassOf rdf:resource=\"#Collector\"/>
+    <rdfs:subClassOf rdf:resource=\"#Scope\"/>
+    <rdfs:subClassOf rdf:resource=\"#Alternative\"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about=\"#Template\">
+    <rdfs:label>template</rdfs:label>
+    <rdfs:comment>an entity wrapping an XML literal with root element in the RuleML or LegalRuleML namespace.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource=\"#XMLLiteralWrapper\"/>    
+  </rdfs:Class>
+  
+  <rdf:Property rdf:about=\"#hasParaphrase\">
+    <rdfs:label>has paraphrase</rdfs:label>
+    <rdfs:comment>a Paraphrase of the parent Node Element (e.g. a Legal Rule).</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#Expression\"/>
+    <rdfs:range rdf:resource=\"#Paraphrase\"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about=\"#hasStatement\">
+    <rdfs:label>has member statement</rdfs:label>
+    <rdfs:comment>a Legal Statement in the collection.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#Statements\"/>
+    <rdfs:range rdf:resource=\"#Statement\"/>
+    <rdfs:subPropertyOf rdf:resource=\"#hasMember\"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about=\"#hasStatements\">
+    <rdfs:label>has statement collection</rdfs:label>
+    <rdfs:comment>a collection of Legal Statements.</rdfs:comment>
+    <rdfs:range rdf:resource=\"#Statements\"/>
+    <rdfs:subPropertyOf rdf:resource=\"#hasCollection\"/>
+  </rdf:Property>
+  
+  <rdf:Property rdf:about=\"#hasTemplate\">
+    <rdfs:label>has template</rdfs:label>
+    <rdfs:comment>the template of a Legal Statement.</rdfs:comment>
+    <rdfs:domain rdf:resource=\"#Statement\"/>
+    <rdfs:range rdf:resource=\"#Template\"/>
+  </rdf:Property>
+   
+</rdf:RDF>
+", 
+"description": " In Legal Theory norms are classified mostly in two main categories: constitutive norms and prescriptive norms, which will be then represented as constitutive rules (also known as counts-as rules) and prescriptive rules.
+
+The function of constitutive norms is to define and create so called institutional facts [39], where an institutional fact is how a particular concept is understood in a specific institution. Thus, constitutive rules provide definitions of the terms and concepts used in a jurisdiction. On the other hand, prescriptive rules dictate the obligations, prohibitions, permissions, etc. of a legal system, along with the conditions under which the obligations, prohibitions, permissions, etc. hold.
+
+Glossary definitions for these statements are as follows:
+
+Statements +:  a collection where every member is a Legal Statement or a FactualStatement.
+
+ReparationStatement: a Legal Statement of a Reparation.
+
+PrescriptiveStatement +: a Legal Statement which prescribes behaviors, e.g. with Permissions, Obligations, or Prohibitions on states, actions, or courses of actions.
+
+PenaltyStatement +: a Legal Statement of a sanction (e.g. a punishment or a correction).
+
+OverrideStatement +: a Legal Statement of an Override.
+
+ConstitutiveStatement +: a Legal Statement that defines concepts and does not prescribe behaviors.
+
+FactualStatement +: an expression of fact."}
+]

@@ -1,0 +1,20 @@
+ In Legal Theory norms are classified mostly in two main categories: constitutive norms and prescriptive norms, which will be then represented as constitutive rules (also known as counts-as rules) and prescriptive rules.[6]
+
+The function of constitutive norms is to define and create so called institutional facts [39], where an institutional fact is how a particular concept is understood in a specific institution. Thus, constitutive rules provide definitions of the terms and concepts used in a jurisdiction. On the other hand, prescriptive rules dictate the obligations, prohibitions, permissions, etc. of a legal system, along with the conditions under which the obligations, prohibitions, permissions, etc. hold.
+
+Glossary definitions for these statements are as follows:
+
+Statements +:  a collection where every member is a Legal Statement or a FactualStatement.
+
+ReparationStatement: a Legal Statement of a Reparation.
+
+PrescriptiveStatement +: a Legal Statement which prescribes behaviors, e.g. with Permissions, Obligations, or Prohibitions on states, actions, or courses of actions.
+
+PenaltyStatement +: a Legal Statement of a sanction (e.g. a punishment or a correction).
+
+OverrideStatement +: a Legal Statement of an Override.
+
+ConstitutiveStatement +: a Legal Statement that defines concepts and does not prescribe behaviors.
+
+FactualStatement +: an expression of fact.
+

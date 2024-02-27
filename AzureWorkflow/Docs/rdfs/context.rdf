@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE RDF [
+   <!ENTITY dcterms "http://purl.org/dc/terms">  
+   <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns">  
+   <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema">  
+   <!ENTITY xs "http://www.w3.org/2001/XMLSchema">    
+   <!ENTITY rulemm "http://docs.oasis-open.org/legalruleml/ns/v1.0/rule-metamodel">  
+   <!ENTITY lrmlmm "http://docs.oasis-open.org/legalruleml/ns/v1.0/metamodel">  
+ ]>
+<rdf:RDF xmlns:rdf="&rdf;#" xmlns:rdfs="&rdfs;#" xmlns:xs="&xs;"
+  xmlns:rulemm="&rulemm;#" xmlns:lrmlmm="&lrmlmm;#" xml:base="&lrmlmm;">
+  <!--<owl:Ontology rdf:about="&lrmlmm;/modules/context.rdfs" dc:title="The LegalRuleML MetaModel Context vocabulary"/>-->
+
+  <rdfs:Class rdf:about="#Associable">
+    <rdfs:label>associable</rdfs:label>
+    <rdfs:comment>an entity that can be applied to other entities.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Commentable"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about="#Association">
+    <rdfs:label>association</rdfs:label>
+    <rdfs:comment>a partial description of the extension of some relations where each non-target entity is paired with every target entity.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Associator"/>
+    <rdfs:subClassOf rdf:resource="#Associable"/>
+  </rdfs:Class>
+  
+  <rdfs:Class rdf:about="#Associations">
+    <rdfs:label>association collection</rdfs:label>
+    <rdfs:comment>a collection where every member is an Assocation.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Collection"/>
+    <rdfs:subClassOf rdf:resource="#Associable"/>
+  </rdfs:Class>
+
+
+  <rdfs:Class rdf:about="#Associator">
+    <rdfs:label>associator</rdfs:label>
+    <rdfs:comment>an entity that can apply properties to other entities.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Commentable"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about="#Context">
+    <rdfs:label>context</rdfs:label>
+    <rdfs:comment>an application of Associations to their target entities within a Scope.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Associator"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about="#Scope">
+    <rdfs:label>scope</rdfs:label>
+    <rdfs:comment>a Statement or Collection of Statements</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Expression"/>
+  </rdfs:Class>
+  
+  <rdf:Property rdf:about="#applies">
+    <rdfs:label>applies</rdfs:label>
+    <rdfs:comment>an entity applied by the associator.</rdfs:comment>
+    <rdfs:domain rdf:resource="#Associator"/>
+    <rdfs:range rdf:resource="#Associable"/>
+  </rdf:Property>
+  
+  <rdf:Property rdf:about="#appliesAssociation">
+    <rdfs:label>applies association</rdfs:label>
+    <rdfs:comment>an Association applied by the Context.</rdfs:comment>
+    <rdfs:domain rdf:resource="#Context"/>
+    <rdfs:range rdf:resource="#Association"/>
+    <rdfs:subPropertyOf rdf:resource="#applies"/>
+  </rdf:Property>
+  
+  <rdf:Property rdf:about="#appliesAssociations">
+    <rdfs:label>applies association collection</rdfs:label>
+    <rdfs:comment>a collection of Associations applied by the Context.</rdfs:comment>
+    <rdfs:domain rdf:resource="#Context"/>
+    <rdfs:range rdf:resource="#Associations"/>
+    <rdfs:subPropertyOf rdf:resource="#applies"/>
+  </rdf:Property>
+  
+  <rdf:Property rdf:about="#hasAssociation">
+    <rdfs:label>has member association</rdfs:label>
+    <rdfs:comment>an Association in the collection.</rdfs:comment>
+    <rdfs:domain rdf:resource="#Associations"/>
+    <rdfs:range rdf:resource="#Association"/>
+    <rdfs:subPropertyOf rdf:resource="#hasMember"/>    
+  </rdf:Property>
+
+  <rdf:Property rdf:about="#hasAssociations">
+    <rdfs:label>has association collection</rdfs:label>
+    <rdfs:comment>a collection of Associations.</rdfs:comment>
+    <rdfs:domain rdf:resource="#LegalRuleMLDocument"/>
+    <rdfs:range rdf:resource="#Associations"/>
+    <rdfs:subPropertyOf rdf:resource="#hasCollection"/>    
+  </rdf:Property>
+
+  <rdf:Property rdf:about="#hasContext">
+    <rdfs:label>has context</rdfs:label>
+    <rdfs:comment>a Context described in the LegalRuleML document.</rdfs:comment>
+    <rdfs:domain rdf:resource="#LegalRuleMLDocument"/>
+    <rdfs:range rdf:resource="#Context"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="#inScope">
+    <rdfs:label>in scope</rdfs:label>
+    <rdfs:comment>the Statement or (collection of) Statements that the Context is applied to.</rdfs:comment>
+    <rdfs:domain rdf:resource="#Context"/>
+    <rdfs:range rdf:resource="#Scope"/>
+  </rdf:Property>
+  
+  <rdf:Property rdf:about="#toTarget">
+    <rdfs:label>to target</rdfs:label>
+    <rdfs:comment>the target to which properties are applied by the Association.</rdfs:comment>
+    <rdfs:domain rdf:resource="#Association"/>
+    <rdfs:range rdf:resource="#Expression"/>
+  </rdf:Property>
+  
+  
+</rdf:RDF>

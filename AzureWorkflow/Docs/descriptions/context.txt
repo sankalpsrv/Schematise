@@ -1,0 +1,5 @@
+To avoid redundancy, we have the element <lrml:Association>, which can be used to group meta information referred to several rules or portions of them.
+
+A rule may be differently interpreted according to a variety of parameters associated with a particular situation. For instance, sometimes an alternative interpretation of a textual source of a rule (and its associated formalisation) is associated with a jurisdiction, e.g., regional, national, or international levels, meaning that in one jurisdiction, the rule is interpreted one way, while in another jurisdiction, it is interpreted in another way. Similarly, temporal parameters (e.g., efficacy, enforceability) can change over time due to the normative modifications, and these changes can also affect the strength of the norms.
+
+To represent such parameters, we introduce the <lrml:Context> element, which permits the description of all the characteristics that are linked to a particular rule (e.g., rule1) using the operator <lrml:applies*>, substituting the * with different relationships. In addition to the previous relationships, we also have the following.

@@ -1,0 +1,41 @@
+[{"context": "To avoid redundancy, we have the element <lrml:Association>, which can be used to group meta information referred to several rules or portions of them.
+
+A rule may be differently interpreted according to a variety of parameters associated with a particular situation. For instance, sometimes an alternative interpretation of a textual source of a rule (and its associated formalisation) is associated with a jurisdiction, e.g., regional, national, or international levels, meaning that in one jurisdiction, the rule is interpreted one way, while in another jurisdiction, it is interpreted in another way. Similarly, temporal parameters (e.g., efficacy, enforceability) can change over time due to the normative modifications, and these changes can also affect the strength of the norms.
+
+To represent such parameters, we introduce the <lrml:Context> element, which permits the description of all the characteristics that are linked to a particular rule (e.g., rule1) using the operator <lrml:applies*>, substituting the * with different relationships. In addition to the previous relationships, we also have the following."},
+{"defeasible": "Defeasibility is the property that a conclusion is open in principle to revision in case more evidence to the contrary is provided. Defeasible reasoning is in contrast to monotonic reasoning of propositional logic, where no revision is possible. In addition, defeasible reasoning allows reasoning in the face of contradictions, which gives rise to ex false quodlibet in propositional logic. One application of defeasible reasoning is the ability to model exceptions in a simple and natural way."},
+{"deontic": "Deontic
+
+One of the functions of norms is to regulate the behavior of their subjects by imposing constraints on what the subjects can or cannot do, what situations are deemed legal, and which ones are considered to be illegal. There is an important difference between the constraints imposed by norms and other types of constraints. Typically, a constraint means that the situation described by the constraint cannot occur. For example, the constraint A means that if -A (the negation of A, that is, the opposite of A) occurs, then we have a contradiction, or in other terms, we have an impossible situation. Norms, on the other hand, can be violated. Namely, given a norm that imposes the constraint A, yet we have a situation where -A, we do not have a contradiction, but rather a Violation (see also the glossary), or in other terms we have a situation that is classified as \"illegal\". From a logical point of view, we cannot represent the constraint imposed by a norm simply by A, since the conjunction of A and -A is a contradiction. Thus we need a mechanism to identify the constraints imposed by norms. This mechanism is provided by modal (deontic) operators.
+
+The operators of Obligation, Prohibition and Permission are typically considered the basic ones, but further refinements are possible, for example, two types of permissions have been discussed in the literature on deontic logic: weak permission (or negative permission) and strong permission (or positive permission). Weak permission corresponds to the idea that some A is permitted if -A is not provable as mandatory. In other words, something is allowed by a code only when it is not prohibited by that code [41]. The concept of strong permission is more complicated, as it amounts to the idea that some A is permitted by a code if and only if such a code explicitly states that A is permitted, typically as an exception to the prohibition of A or the obligation of its contrary, i.e., -A. It follows that a strong permission is not derived from the absence of a prohibition, but is explicitly formulated in a permissive (prescriptive) norm [1]. For example, an explicit permissive norm is a sign \"U-turn permitted\" at a traffic light, which derogates the (general) prohibition on U-turns at traffic lights."},
+{"legaltemporal": "Legal texts are often amended as a society or judicial system evolves. Norms and rules are valid in a particular interval of time and with respect to three main legal axes: when they come into force (entry), when they effect the intended or desired result (efficacy), and when they apply (applicability). In this section, we model the external temporal dimensions of the norms (e.g., when the norm is valid) and not the temporal dimensions of the complex events that are the content of the textual provision (e.g., when a person is to present a tax application). Therefore, we only model the intervals and temporal parameters that define the period of validity of the rules. Moreover, in keeping with the sources, it is important to link the temporal parameters to any part of a rule (e.g. atom, rel, ind, if, then, etc.) with a very fine granularity."},
+{"metadata-actor": "An Agent is an entity that acts or has the capability to act. An Agent could be a physical person, a database, or a bot; for this reason we have the sub-element <lrml:hasType> that expresses the category of agent.
+
+The Agent usually is the author of the rule model and he/she/it can act in a particular function (e.g., as senator). A Figure in LegalRuleML is an instantiation of a function by an Actor, where an Actor could be an Agent or a Figure.
+
+In the end we associate the Actor that fills a Role (using <lrml:filledBy>) for a particular rule."},
+{"metadata-jurisdiction-authority": "The Jurisdiction element is a geographic area or subject-matter over which an Authority applies its legal power. It annotates the legal rules that are applicable to a given area or subject-matter (e.g. the rules applicable only in Scotland respect the all UK legal rules).
+
+We can use <lrml:Jurisdiction> also to specify a limited subject-matter, for instance, legal rules which are applicable only to the executive departments (e.g., an Executive Order in the USA is addressed only to the executive departments or agencies).
+
+Similarly to the jurisdiction, authority qualifies the rules with respect to the authenticity of the provenance of the formal model. Authority is a person or organization with the power to create, endorse, or enforce Legal Norms."},
+{"statement": " In Legal Theory norms are classified mostly in two main categories: constitutive norms and prescriptive norms, which will be then represented as constitutive rules (also known as counts-as rules) and prescriptive rules.[6]
+
+The function of constitutive norms is to define and create so called institutional facts [39], where an institutional fact is how a particular concept is understood in a specific institution. Thus, constitutive rules provide definitions of the terms and concepts used in a jurisdiction. On the other hand, prescriptive rules dictate the obligations, prohibitions, permissions, etc. of a legal system, along with the conditions under which the obligations, prohibitions, permissions, etc. hold.
+
+Glossary definitions for these statements are as follows:
+
+Statements +:  a collection where every member is a Legal Statement or a FactualStatement.
+
+ReparationStatement: a Legal Statement of a Reparation.
+
+PrescriptiveStatement +: a Legal Statement which prescribes behaviors, e.g. with Permissions, Obligations, or Prohibitions on states, actions, or courses of actions.
+
+PenaltyStatement +: a Legal Statement of a sanction (e.g. a punishment or a correction).
+
+OverrideStatement +: a Legal Statement of an Override.
+
+ConstitutiveStatement +: a Legal Statement that defines concepts and does not prescribe behaviors.
+
+FactualStatement +: an expression of fact."}]
