@@ -1,0 +1,37 @@
+<lrml:PrescriptiveStatement key="duty-to-comply-with-standards">
+
+      <ruleml:Rule closure="universal">
+
+        <ruleml:if>
+
+          <ruleml:Atom>
+
+            <ruleml:Rel iri=":collectionCentre"/>
+
+            <ruleml:Var>centre</ruleml:Var>
+
+          </ruleml:Atom>
+
+        </ruleml:if>
+
+        <ruleml:then>
+
+          <lrml:Obligation key="obligation-to-comply">
+
+            <ruleml:Atom>
+
+              <ruleml:Rel iri=":complyWithStandards"/>
+
+              <ruleml:Var>centre</ruleml:Var>
+
+              <lrml:Ref keyref="ref-issued-standards"/>
+
+            </ruleml:Atom>
+
+          </lrml:Obligation>
+
+        </ruleml:then>
+
+      </ruleml:Rule>
+
+    </lrml:PrescriptiveStatement>
