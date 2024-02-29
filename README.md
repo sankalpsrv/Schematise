@@ -5,6 +5,8 @@ Features currently implemented:
 2. Automatic metamodel alignment in Azure (automatically aligning with all 7 metamodels utilised in this program).
 3. Manual metamodel alignment in Azure (by specifying which of the 7 metamodels and the order you want to align the XML with them in).
 
+<img src = "./Streamlit/Streamlit_Screencast.png">
+
 ### How to run:
 
 0. Run the following command or download the ZIP file for the "dev" branch - `git clone -b dev https://github.com/sankalpsrv/Schematise.git`
