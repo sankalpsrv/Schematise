@@ -3,7 +3,7 @@ import metamodelAndRAG
 import utils
 
 import json
-def responseGetter(df2, llm):
+def responseGetter(df2, llm, format_chosen):
 
 
     XML_responses = []
@@ -23,7 +23,7 @@ def responseGetter(df2, llm):
 
         result = '' # Accounting for instances where empty output has been generated
         while not result or len(result) < 250:
-            result = model.send_request(section_for_conversion, llm)
+            result = model.send_request(section_for_conversion, llm, format_chosen)
 
 
         filename = f"_cache/section_{i}"
