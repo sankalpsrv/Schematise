@@ -32,6 +32,32 @@ An LLM enabled XML generator for statutes in the Akoma Ntoso format.
 
 <img src = "./Flowchart.png" alt="A flowchart showing the different components of the programm which flows from Templates through to Part 1 where a combined XML is generated, and Part 2 where it is validated">
 
+### Ethical considerations
+
+- App shall provide a disclaimer before executing and at the generated results in each case regarding the results not constituting legal advice.
+- No user data will be sought or stored in any place. The database integration will store the inference results for each statute.
+
+### Resource constraints
+I am working on a Cloud GPU when testing "local inferencing" via Llama2, and I am attempting to work with quantised models at this stage. However, OpenAI seems to provide a much more feasible deployment scenario. I will expand on capacities later, if required and for fine-tuning, such as by availing Azure. 
+
+For the purposes of **app showcase** I intend on deploying via Cloud GPU, to the extent possible. Alternatively, will run on OpenAI as it is already integrated in the LangChain workflow. 
+
+
+### LLMs being compared
+HuggingFace's Transformers library will be made use of, in addition to Azure or any other comparable compute resources provider.
+
+- Llama (useful because of its Grammars implementation)
+ I have been able to generate similar output from Llama's 13b and 7b models via few-shot prompting. 
+- GPT
+I am using GPT3.5 for some idea testing and it has been delivering results consistently so far. I have shared these in my [notebook on the GitHub repository](www.github.com/sankalpsrv/Schematise/blob/main/Notebook-of-approaches/LangChain_FewShot.ipynb)
+
+The following models will be considered later, if required
+- Mixtral 7b instruct fine tuned
+- BERT models
+  - LegalBert (However, [this paper](https://www.sciencedirect.com/science/article/abs/pii/S0267364923000742) suggests that auto-encoding models perform lesser than autoregressive ones on this task)
+  - InLegalBert (shown to perform better on Indian laws)
+
+
 # TO-DOs
 
 [Successful] Make a draft version of the app for review at the Hackday which will work on a representative set and generate compliances in Markdown/Text format.
