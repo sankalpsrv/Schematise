@@ -83,8 +83,13 @@ def strip_code_block(string):
 def XML_Similarity(XML_responses, text_value):
 
     def get_elements_and_attributes(xml_file):
-        tree = ET.parse(xml_file)
-        root = tree.getroot()
+        with open(xml_file, "r") as xml_fn:
+            xml_file_contents = xml_fn.read()
+
+        #tree = ET.parse(xml_file)
+        #root = tree.getroot()
+
+        root = ET.fromstring(xml_file_contents.encode('utf-8'))
 
         elements_and_attributes = {}
 
@@ -149,22 +154,37 @@ def XML_Similarity(XML_responses, text_value):
                 keypair_for_similarities_dict = key1 + '' + key2
                 similarities_dict[keypair_for_similarities_dict]=key_similarity
                 # Compare key1 with value2
-                value_similarity_0 = fuzzy_similarity(key1, value2[0]) if isinstance(value2, tuple) else None
-                value_similarity_1 = fuzzy_similarity(key1, value2[1]) if isinstance(value2, tuple) else None
-                #print(f"Similarity between key '{key1}' and value '{value2[0]}': {value_similarity_0}")
-                #print(f"Similarity between key '{key1}' and value '{value2[1]}': {value_similarity_1}")
-                keypair_0_for_similarities_dict = key1 + '' + value2[0]
-                keypair_1_for_similarities_dict = key1 + '' + value2[1]
+                if isinstance(value2, tuple):
+                    value_similarity_0 = fuzzy_similarity(key1, value2[0])
+                    value_similarity_1 = fuzzy_similarity(key1, value2[1])
+                    #print(f"Similarity between key '{key1}' and value '{value2[0]}': {value_similarity_0}")
+                    #print(f"Similarity between key '{key1}' and value '{value2[1]}': {value_similarity_1}")
+                    keypair_0_for_similarities_dict = key1 + '' + value2[0]
+                    keypair_1_for_similarities_dict = key1 + '' + value2[1]
+                else:
+                    value_similarity_0 = 0
+                    value_similarity_1 = 0
+                    keypair_0_for_similarities_dict = ''
+                    keypair_1_for_similarities_dict = ''
+
+
 
                 similarities_dict[keypair_0_for_similarities_dict]=value_similarity_0
                 similarities_dict[keypair_1_for_similarities_dict]=value_similarity_1
 
             # Compare value1 with each key in dict2
             for key2 in dict2.keys():
-                value_similarity_0 = fuzzy_similarity(value1[0], key2) if isinstance(value1, tuple) else None
-                value_similarity_1 = fuzzy_similarity(value1[1], key2) if isinstance(value1, tuple) else None
-                keypair_0_for_similarities_dict = key2 + '' + value1[0]
-                keypair_1_for_similarities_dict = key2 + '' + value1[1]
+                if isinstance(value1, tuple):
+                    value_similarity_0 = fuzzy_similarity(value1[0], key2)
+                    value_similarity_1 = fuzzy_similarity(value1[1], key2)
+                    keypair_0_for_similarities_dict = key2 + '' + value1[0]
+                    keypair_1_for_similarities_dict = key2 + '' + value1[1]
+
+                else:
+                    value_similarity_0 = 0
+                    value_similarity_1 = 0
+                    keypair_0_for_similarities_dict = ''
+                    keypair_1_for_similarities_dict = ''
                 similarities_dict[keypair_0_for_similarities_dict]=value_similarity_0
                 similarities_dict[keypair_1_for_similarities_dict]=value_similarity_1
                 #print(f"Similarity between value '{value1[0]}' and key '{key2}': {value_similarity_0}")
@@ -173,30 +193,26 @@ def XML_Similarity(XML_responses, text_value):
             def remove_below_threshold(similarities_dict, similarity_threshold):
                 return {key: value for key, value in similarities_dict.items() if value >= similarity_threshold}
 
-            similarities_dict_below_threshold = remove_below_threshold(similarities_dict, similarity_threshold)
+            similarities_dict_above_threshold = remove_below_threshold(similarities_dict, similarity_threshold)
 
-    def similarity_tweaking(similarities_dict_below_threshold, dict1, dict2_cleaned):
-
-
-
-        value_to_tweak = input ("Press the index number of the similarities to tweak: ")
-
-        print ("Which value do you prefer?")
+        return similarities_dict_above_threshold
 
 
 
     # Example usage
     xml_file_1 = './_cache/xml_file_1.xml'  # Replace with the path to your XML file
     xml_file_2 = "./_cache/xml_file_2.xml"
-    combined_XML_responses = ' '.join(XML_responses)
+    print("XML_responses is ", XML_responses)
+    print("text_value is ", text_value)
+    #XML_decoded=XML_responses.decode('utf-8')
     with open (xml_file_1, "w") as fn:
-        fn.write(combined_XML_responses.replace('\n', ''))
+        fn.write(XML_responses)
     with open(xml_file_2, "w") as fn:
         fn.write(text_value)
     dict1 = get_elements_and_attributes(xml_file_1)
     dict2 = get_elements_and_attributes(xml_file_2)
     dict2_cleaned = clean_dictionary(dict2, "{http://www.oasis-open.org/committees/legalruleml}")
-    similarities_dict_below_threshold = compare_dicts(dict1, dict2_cleaned)
+    similarities_dict_above_threshold = compare_dicts(dict1, dict2_cleaned)
     '''print(elements_and_attributes)
     for element, attributes in elements_and_attributes.items():
         print(f"Element: {element}")
@@ -204,7 +220,7 @@ def XML_Similarity(XML_responses, text_value):
     '''
 
 
-    return similarities_dict_below_threshold, dict1, dict2_cleaned
+    return similarities_dict_above_threshold
 
 if __name__ == "__main__":
     #This section for debugging only

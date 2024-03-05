@@ -63,10 +63,12 @@ def getRAG_metamodels(text_value, metamodel_number):
     metamodel_text_value = model.RAGPrompt(RetrieverObj, text_value, metamodel, metamodel_number)
 
     return metamodel_text_value
-def metamodel_operations(text_value, i, metamodels_to_process=global_metamodels_to_process):
+def metamodel_operations(text_value, i, metamodels_to_process, llm_selected="OpenAI"):
     new_text_value = ''
+    print ("metamodels selected are: ", metamodels_to_process)
     for metamodel_number in metamodels_to_process:
         metamodel_number = metamodel_number.strip()
+        print("metamodel being processed is: ", metamodel_number)
         if metamodel_number != '':
             metamodel_text_value = getRAG_metamodels(text_value, metamodel_number)
             text_value = metamodel_text_value['text']
@@ -74,30 +76,36 @@ def metamodel_operations(text_value, i, metamodels_to_process=global_metamodels_
             with open(filename, "w") as fn:
                 fn.write(text_value)
 
-        new_text_value += utils.strip_code_block(str(text_value))
+        if llm_selected == 'OpenAI':
+            new_text_value = str(text_value)
+        else:
+            new_text_value += utils.strip_code_block(str(text_value))
 
 
     return new_text_value
+
+#def akn_RAG(text_value, i, tuning_segment, llm_selected="OpenAI"):
 
 
 
 if __name__ == "__main__":
     ## This part for debugging only
-
+    '''
     with open("_cache/text_value_stripped_2.txt", "r") as fn:
         text_value = fn.read()
-
+    
     metamodel = getRAG_metamodels(text_value, metamodel_number = "1")
-
+    
     toclean = metamodel['text']
-
+    
     cleaned = utils.strip_code_block(toclean)
-
+    
     print(cleaned)
     '''
+
     retrieverObj = CustomRetriever()
 
-    retriever = retrieverObj.get_relevant_documents("The quick brown fox jumps over the")
+    retriever = retrieverObj._get_relevant_documents("The quick brown fox jumps over the")
 
     retriever = retriever.replace ('\n', '')
     retriever = retriever.replace ('\t', '')
@@ -108,10 +116,10 @@ if __name__ == "__main__":
 
     data = json.loads(retriever)
 
-    value_of_key = data[1]['defeasible']
+    value_of_key = data[2]['deontic']
 
     print(value_of_key)
-    '''
+
 
     '''
     prompt_template = """

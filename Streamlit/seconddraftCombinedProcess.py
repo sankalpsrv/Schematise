@@ -3,11 +3,17 @@ import metamodelAndRAG
 import utils
 
 import json
+import streamlit as st
 def responseGetter(df2, llm, format_chosen):
 
 
     XML_responses = []
-    string_namespace = '<LegalRuleML xmlns:lrml="http://www.oasis-open.org/committees/legalruleml">'
+    if format_chosen == "legalruleml":
+        string_namespace = '<LegalRuleML xmlns:lrml="http://www.oasis-open.org/committees/legalruleml" xmlns:ruleml="http://www.oasis-open.org/committees/legalruleml">'
+        string_end = "</LegalRuleML>"
+    else:
+        string_namespace = '<akomaNtoso>'
+        string_end = "</akomaNtoso>"
     i = 0
 
     for index, row in df2.iterrows():
@@ -42,16 +48,10 @@ def responseGetter(df2, llm, format_chosen):
         with open(filename_debug_stripped , "w") as fn:
             fn.write(text_value)
 
-        if llm == 'openaiselected':
-            if i == 1:
-                new_text_value = string_namespace + result
-            else:
-                new_text_value = result
+        if llm == 'OpenAI':
+                new_text_value = string_namespace + result + string_end
         else:
-            if i == 1:
-                new_text_value = string_namespace + text_value
-            else:
-                new_text_value = text_value
+                new_text_value = string_namespace + text_value + string_end
         # This code has been removed due to the process taking more memory on a Local Deployment than available
         '''elif i % int(num_interval) == 0 or i == 3:
             if XML_arg == "--xmla":
@@ -66,6 +66,37 @@ def responseGetter(df2, llm, format_chosen):
         print (f"XML structure on the number {i} iteration is as follows: \n{XML_responses}")
 
     return XML_responses
+
+
+
+def similarityProcess(XML_responses, text_value, similarities_dict_below_threshold):
+    print(
+        "These are the list of similarities between the newest XML generation and the previously generated XML with their index numbers: \n")
+    i = 0
+    for XML_values, similarity in similarities_dict_below_threshold.items():
+        i += 1
+        print(i, ".: Similarity between the two XML elements or attributes here", XML_values, "is equal to", similarity)
+
+    input_for_revision_opt = input(
+        'Do you want to upload an entire new revised XML in place of the newest XML generation? Enter "Yes" or input any other key to continue')
+
+    if input_for_revision_opt == "Yes":
+        new_text_value_fn = input('Enter the filename')
+
+        with open(new_text_value_fn, "r") as new_text_file:
+            new_text_value = new_text_file.read()
+        return new_text_value
+
+    else:
+        input_for_metamodel = input('Do you want to align with the metadata model? Enter "Yes" or enter any other key to continue without doing so')
+
+        if input_for_metamodel == "Yes":
+            metamodels_to_process=metamodel_options()
+            print(metamodels_to_process)
+            new_text_value = metamodelAndRAG.metamodel_operations(text_value, metamodels_to_process)
+            return new_text_value
+        else:
+            return text_value
 
 
 

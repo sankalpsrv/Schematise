@@ -20,18 +20,18 @@ from langchain_core.prompts import ChatPromptTemplate
 
 from langchain_community.llms.huggingface_pipeline import HuggingFacePipeline
 from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
-from langchain_openai import ChatOpenAI
+from langchain_openai import ChatOpenAI, OpenAI
 from langchain_core.example_selectors.base import BaseExampleSelector
 
 
 import torch, gc
 hf_global = HuggingFacePipeline()
-llm_global = "openaiselected"
+llm_global = "OpenAI"
 openai_key = config('OPENAI_API_KEY')
-print (openai_key)
 openai_chain = ChatOpenAI(openai_api_key=openai_key)
 
-
+global_metamodel = ' '
+global_metamodel_number = ''
 
 class CustomExampleSelector(BaseExampleSelector):
     def __init__(self):
@@ -74,7 +74,7 @@ def clear_torch_cache():
 
 
 
-def instantiate_model(llm="openaiselected"):
+def instantiate_model(llm="OpenAI"):
     global llm_global
     llm_global = llm
     if llm == "Llama-2-7b-chat":
@@ -141,7 +141,7 @@ def send_request(section_for_conversion, llm, format_chosen="legaldocml"):
             ("human", "{question}"),
         ]
     )
-    if llm_global == "openaiselected":
+    if llm_global == "OpenAI":
         llm_chain = final_prompt | openai_chain | output_parser
     else:
         llm_chain = final_prompt | hf
@@ -155,7 +155,7 @@ def RAGPrompt (RetrieverObj, text_value, metamodel, metamodel_number):
     global_metamodel= metamodel
     global global_metamodel_number
     global_metamodel_number = metamodel_number
-    instantiate_model()
+    instantiate_model(llm=llm_global)
     global hf_global
     hf = hf_global
 
@@ -183,8 +183,8 @@ def RAGPrompt (RetrieverObj, text_value, metamodel, metamodel_number):
             [/INST]
         """
     # Use the following values as placeholders
-    def get_relevant_metamodel(retrieverObj):
-        docs = retrieverObj.get_relevant_documents("query")
+    def get_relevant_metamodel(RetrieverObj):
+        docs = RetrieverObj.get_relevant_documents("query")
 
         docs = docs.replace('\n', '')
         docs = docs.replace('\t', '')
@@ -194,8 +194,8 @@ def RAGPrompt (RetrieverObj, text_value, metamodel, metamodel_number):
         relevant_metamodel = data[2]["deontic"]
         return relevant_metamodel
 
-    def get_relevant_definition(retrieverObj):
-        docs = retrieverObj.get_relevant_documents("query")
+    def get_relevant_definition(RetrieverObj):
+        docs = RetrieverObj.get_relevant_documents("query")
         docs = docs.replace('\n', '')
         docs = docs.replace('\t', '')
 
@@ -209,15 +209,25 @@ def RAGPrompt (RetrieverObj, text_value, metamodel, metamodel_number):
         ("human", human_prompt)
     ])
 
-
-    llm_chain = LLMChain(llm=hf, prompt=template)
+    metamodel_definition = get_relevant_metamodel(RetrieverObj)
+    metamodel = get_relevant_metamodel(RetrieverObj)
 
     input_dict = {
         "system_prompt": sys_prompt,
-        "metamodel_definition": RetrieverObj|get_relevant_definition,
-        "metamodel_XML": RetrieverObj|get_relevant_metamodel,
+        "metamodel_definition": metamodel_definition,
+        "metamodel_XML": metamodel,
         "question": text_value,
     }
+    print("Input_dict is ", input_dict)
+
+    with open ("_cache/input_dict", "w") as fn:
+        fn.write(str(input_dict))
+
+    if llm_global == "OpenAI":
+        openai = OpenAI(openai_api_key = openai_key)
+        llm_chain = LLMChain(llm = openai_chain, prompt = template)
+    else:
+        llm_chain = LLMChain(llm=hf, prompt=template)
 
     new_text_value = llm_chain.invoke(input=input_dict)
 
