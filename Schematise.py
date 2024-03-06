@@ -9,6 +9,7 @@ openai_key = config('OPENAI_API_KEY', default = '')
 st.session_state['openai_key'] = openai_key
 st.session_state['ik_api'] = ik_api
 
+filename = "fullsections.csv"
 
 @st.cache_data
 def set_env(request, key):
@@ -54,6 +55,7 @@ if condition_for_csv == "Upload":
     dataframe_view("fullsections.csv")
 
     uploaded_file = st.file_uploader("Choose a file")
+
     if uploaded_file is not None:
         filename = uploaded_file.name
 
