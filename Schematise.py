@@ -36,6 +36,8 @@ def get_XML(df2, llm_selected, format_chosen):
     XML_responses = combinedProcess.responseGetter(openai_key, df2, llm_selected, format_chosen)
     return XML_responses
 
+st.image('Schematise-logo-light.png')
+
 condition_for_csv = st.radio("Do you want to upload a CSV file or use your IndianKanoon API key?", ["Upload", "IndianKanoon"])
 
 def dataframe_view(filename):
@@ -60,7 +62,7 @@ if condition_for_csv == "Upload":
         filename = uploaded_file.name
 
 else:
-    if ik_api is '':
+    if ik_api == '':
         ik_api=st.text_input("Please enter your IndianKanoon API Key")
         set_env("ikanoon", ik_api)
 
@@ -98,19 +100,43 @@ llm_selected = st.radio(
     )
 
 
-if llm_selected == 'OpenAI' and openai_key is '':
+if llm_selected == 'OpenAI' and openai_key == '':
     openai_key_input = st.text_input("OpenAI API Key")
     set_env("openai", openai_key_input)
-    
-XML_responses = get_XML(df2, llm_selected, format_chosen)
 
-st.write(XML_responses)
+try:
+    XML_responses = get_XML(df2, llm_selected, format_chosen)
 
-st.session_state['XML_resp'] = XML_responses
+except ValueError:
+    st.write("Error: Please enter a valid OpenAI key")
 
-st.session_state['fchosen'] = format_chosen
+except UnboundLocalError:
+    st.write("Error: Please follow all earlier steps for selecting format, number of sections, and llm")
 
-st.session_state['llmc'] = llm_selected
+
+try:
+    st.write(XML_responses)
+
+except NameError:
+    st.write("Error: Please complete the earlier steps for computing XML_responses")
+
+try:
+    st.session_state['XML_resp'] = XML_responses
+
+except NameError:
+    st.write("Error: Please complete the earlier steps for storing XML_responses")
+
+try:
+    st.session_state['fchosen'] = format_chosen
+
+except NameError:
+    st.write("Error: Please complete the earlier steps for selecting format: LegalDocML or LegalRuleML")
+
+try:
+    st.session_state['llmc'] = llm_selected
+
+except NameError:
+    st.write("Error: Please complete the earlier steps for selecting LLM")
 
 
 

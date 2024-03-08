@@ -6,9 +6,13 @@ import model, metamodelAndRAG, combinedProcess, utils
 from xml.etree.ElementTree import ParseError  # Import ParseError from the XML parsing library you're using
 import traceback
 
-XML_responses = st.session_state['XML_resp']
-format_chosen = st.session_state['fchosen']
-llm_selected = st.session_state['llmc']
+try:
+    XML_responses = st.session_state['XML_resp']
+    format_chosen = st.session_state['fchosen']
+    llm_selected = st.session_state['llmc']
+
+except KeyError:
+    st.write("ERROR: Please complete process on main page 'Schematise' for computing XML in legalruleml or legaldocml format first")
 
 condition_similarity_check = st.radio("Do you want to check for similarities? Enter Yes or No",
          ["Yes", "No"])
@@ -68,10 +72,10 @@ if condition_similarity_check == "Yes":
                 key_error = "XMLerror" + key_id_sim
                 key_replacement = "XMLreplacement" + key_id_sim
                 key_upload = "XMLupload" + key_id_sim
-                if tback.find("dict1") is not -1:
+                if tback.find("dict1") != -1:
                     tback_file = "First XML segment selected"
                     tback_input = XML_responses[int(indexes[0])]
-                elif tback.find("dict2") is not -1:
+                elif tback.find("dict2") != -1:
                     tback_file = "Second XML segment selected"
                     tback_input = XML_responses[int(indexes[1])]
                 st.write(f"The following error occured: {e} {tback}", key=key_error)

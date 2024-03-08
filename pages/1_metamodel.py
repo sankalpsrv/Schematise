@@ -5,12 +5,17 @@ import numpy as np
 import model, metamodelAndRAG, combinedProcess, utils
 #from Schematise import XML_responses, format_chosen
 
+try:
+    XML_responses = st.session_state['XML_resp']
+    format_chosen = st.session_state['fchosen']
+    llm_selected = st.session_state['llmc']
+    openai_key = st.session_state['openai_key']
+    ik_api = st.session_state['ik_api']
 
-XML_responses = st.session_state['XML_resp']
-format_chosen = st.session_state['fchosen']
-llm_selected = st.session_state['llmc']
-openai_key = st.session_state['openai_key']
-ik_api = st.session_state['ik_api']
+except KeyError:
+    st.write("ERROR: Please complete process on main page 'Schematise' for computing XML in legalruleml format first")
+
+
 
 def metamodel_options(key_id):
 
@@ -51,34 +56,39 @@ def get_metamodel_response(XML_responses, llm_selected, metamodels_to_process):
         new_text_value.append(metamodelAndRAG.metamodel_operations(XML_fragment, i, metamodels_to_process, llm_selected))
     return new_text_value
 
-new_XML_responses = cache_XML_responses(XML_responses)
+try:
+    new_XML_responses = cache_XML_responses(XML_responses)
 
 
 #st.write(new_XML_responses)
-if format_chosen == "legalruleml":
+
+    if format_chosen == "legalruleml":
 
 
-    widget_id = (id for id in range(1, 8))
+        widget_id = (id for id in range(1, 8))
 
-    key_id = str(next(widget_id))
-    key_id_1 = "condn" + str(key_id)
-    key_id_6 = "finalwrite" + str(key_id)
-    input_for_metamodel = st.radio(
-        'Do you want to align with the metadata model? Enter "Yes" to continue with metamodel alignment or "No" to continue without doing so', ["No", "Yes"], key = key_id_1)
+        key_id = str(next(widget_id))
+        key_id_1 = "condn" + str(key_id)
+        key_id_6 = "finalwrite" + str(key_id)
+        input_for_metamodel = st.radio(
+            'Do you want to align with the metadata model? Enter "Yes" to continue with metamodel alignment or "No" to continue without doing so', ["No", "Yes"], key = key_id_1)
 
-    if input_for_metamodel == "Yes":
-        metamodels_to_process=metamodel_options(key_id)
-        tweaked_XML = get_metamodel_response(XML_responses, llm_selected, metamodels_to_process)
+        if input_for_metamodel == "Yes":
+            metamodels_to_process=metamodel_options(key_id)
+            tweaked_XML = get_metamodel_response(XML_responses, llm_selected, metamodels_to_process)
+        else:
+            tweaked_XML = XML_responses
+
+        st.write(tweaked_XML, key=key_id_6)
+
+        new_XML_responses = cache_XML_responses(tweaked_XML)
+
+        XML_responses = new_XML_responses
+
     else:
-        tweaked_XML = XML_responses
+        st.write("This page only loads if you have selected 'legalruleml' as the option for generation")
 
-    st.write(tweaked_XML, key=key_id_6)
-
-    new_XML_responses = cache_XML_responses(tweaked_XML)
-
-    XML_responses = new_XML_responses
-
-else:
-    st.write("This page only loads if you have selected 'legalruleml' as the option for generation")
+except NameError:
+    st.write("ERROR: Please complete the process on the main page for computing XML in 'legalruleml' format first")
 
 

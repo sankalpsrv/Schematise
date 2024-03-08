@@ -73,37 +73,7 @@ def instantiate_model(openai_key, llm="OpenAI"):
     llm_global = llm
     global global_openai_key
     global_openai_key = openai_key
-    if llm == "Llama-2-7b-chat": #Option for Llama2-7b-chat removed
-
-        ## THIS PART IS FOR LOCAL DEPLOYMENT
-
-        model_name_or_path = "TheBloke/Llama-2-7B-Chat-GPTQ"
-        # To use a different branch, change revision
-        # For example: revision="main"
-        model = AutoModelForCausalLM.from_pretrained(model_name_or_path,
-                                                     device_map="auto",
-                                                     trust_remote_code=True,
-                                                     revision="main")
-
-        tokenizer = AutoTokenizer.from_pretrained(model_name_or_path, use_fast=True)
-
-        pipe = pipeline(
-            "text-generation",
-            model=model,
-            tokenizer=tokenizer,
-            max_length=4000,
-            do_sample=True,
-            temperature=0.7,
-            top_p=0.95,
-            top_k=40,
-            repetition_penalty=1.1
-        )
-        global hf_global
-        hf = HuggingFacePipeline(pipeline=pipe)
-        hf_global = hf
-        return hf
-
-    else:
+    if llm == "OpenAI":
         openai_chain = ChatOpenAI(openai_api_key=openai_key)
         return openai_chain
 
@@ -146,7 +116,8 @@ def send_request(openai_key, section_for_conversion, llm, format_chosen="legaldo
     if llm == "OpenAI":
         llm_chain = final_prompt | openai_chain | output_parser
     else:
-        llm_chain = final_prompt | hf
+        pass
+        #llm_chain = final_prompt | hf
 
     result = llm_chain.invoke({"question": section_for_conversion})
 
@@ -230,8 +201,9 @@ def RAGPrompt (RetrieverObj, text_value, metamodel, metamodel_number):
         openai_chain = instantiate_model(openai_key, llm=llm_global)
         llm_chain = LLMChain(llm = openai_chain, prompt = template)
     else:
-        hf = instantiate_model(llm=llm_global)
-        llm_chain = LLMChain(llm=hf, prompt=template)
+        pass
+        #hf = instantiate_model(llm=llm_global)
+        #llm_chain = LLMChain(llm=hf, prompt=template)
 
     new_text_value = llm_chain.invoke(input=input_dict)
 
