@@ -49,6 +49,7 @@ def cache_XML_responses(XML_responses):
 
 @st.cache_data
 def get_metamodel_response(XML_responses, llm_selected, metamodels_to_process):
+    global openai_key
     new_text_value = []
     i=0
     for XML_fragment in XML_responses:
