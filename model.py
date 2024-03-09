@@ -123,13 +123,13 @@ def send_request(openai_key, section_for_conversion, llm, format_chosen="legaldo
 
     return result
 
-def RAGPrompt (RetrieverObj, text_value, metamodel, metamodel_number):
+def RAGPrompt (openai_key, RetrieverObj, text_value, metamodel, metamodel_number):
     global global_metamodel
     global_metamodel= metamodel
     global global_metamodel_number
     global_metamodel_number = metamodel_number
-    global global_openai_key
-    openai_key = global_openai_key
+    #global global_openai_key
+    #openai_key = global_openai_key
     #global hf_global
     #hf = hf_global
 
