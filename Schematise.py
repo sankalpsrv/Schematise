@@ -25,9 +25,6 @@ def set_env(key = '', request = ''):
     else:
         
         return st.session_state['ik_api'], st.session_state['openai_key']
-    #with open('.env', 'w') as fn:
-    #    print("Executing set_env function")
-    #    fn.write(f"OPENAI_API_KEY={openai_key}\nIK_API_KEY={ik_api}")
 
 @st.cache_data
 def load_data(filename, start_value, end_value):
@@ -117,6 +114,9 @@ if llm_selected == 'OpenAI' and openai_key == '':
 
 try:
     XML_responses = get_XML(df2, llm_selected, format_chosen)
+    st.download_button(label = "Download XML generated", 
+                        data = str(XML_responses),
+                        file_name = f'{format_chosen}_{start_value}_{end_value}.txt')
 
 except ValueError:
     st.write("Error: Please enter a valid OpenAI key")
