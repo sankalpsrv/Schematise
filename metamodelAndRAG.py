@@ -56,21 +56,21 @@ class CustomRetriever(BaseRetriever):
         #return [Document(page_content=self.page_content)]
         # Directly use self.page_content, which is guaranteed to be present
 
-def getRAG_metamodels(text_value, metamodel_number):
+def getRAG_metamodels(openai_key, text_value, metamodel_number):
     metamodel = metamodel_filename_dict[metamodel_number]
     RetrieverObj = CustomRetriever()
 
-    metamodel_text_value = model.RAGPrompt(RetrieverObj, text_value, metamodel, metamodel_number)
+    metamodel_text_value = model.RAGPrompt(openai_key, RetrieverObj, text_value, metamodel, metamodel_number)
 
     return metamodel_text_value
-def metamodel_operations(text_value, i, metamodels_to_process, llm_selected="OpenAI"):
+def metamodel_operations(openai_key, text_value, i, metamodels_to_process, llm_selected="OpenAI"):
     new_text_value = ''
     print ("metamodels selected are: ", metamodels_to_process)
     for metamodel_number in metamodels_to_process:
         metamodel_number = metamodel_number.strip()
         print("metamodel being processed is: ", metamodel_number)
         if metamodel_number != '':
-            metamodel_text_value = getRAG_metamodels(text_value, metamodel_number)
+            metamodel_text_value = getRAG_metamodels(openai_key, text_value, metamodel_number)
             text_value = metamodel_text_value['text']
             filename = "Docs/" + "metamodel" + metamodel_number + "_" + str(i) + ".txt"
             with open(filename, "w") as fn:
