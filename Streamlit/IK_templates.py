@@ -1,25 +1,9 @@
 import re
 
 import requests
-import os
 
 from bs4 import BeautifulSoup
 import csv
-
-
-from secret_key import ik_key
-
-token_api=ik_key
-
-
-# Check if the API key is present
-if not token_api:
-    raise ValueError("API key not found. Make sure to set the IK_API_KEY environment variable.")
-
-headers = {
-            'authorization': f"Token {token_api}"
-        }
-
 
 def remove_text(input_string, start_constant, end_constant):
     pattern = re.escape(start_constant) + r".*?" + re.escape(end_constant)
@@ -36,11 +20,12 @@ def clean_text(res):
     for span in attachments_spans:
         span.extract()
     modified_html = str(soup)
-    soup2 = BeautifulSoup (modified_html, 'html.parser')
+    soup2 = BeautifulSoup(modified_html, 'html.parser')
     text = str(soup2.get_text())
     initialremove = remove_text(text, start_constant="{'tid", end_constant="'doc': '")
     secondremove = remove_text(initialremove, start_constant="'numcites': ", end_constant="'courtcopy': ")
     return secondremove, modified_html
+
 
 def extract_sections(modified_html):
     soup = BeautifulSoup(modified_html, 'html.parser')
@@ -53,10 +38,10 @@ def extract_sections(modified_html):
 
     with open(csv_filename, 'w', newline='') as csv_file:
         writer = csv.writer(csv_file)
-    
+
         # Write CSV header
         writer.writerow(['Section Title', 'Nested Content'])
-        
+
         # Iterate through <section> elements and write to CSV
         for section in sections:
             section_title_init = section.find(['h2', 'h3'])
@@ -65,19 +50,23 @@ def extract_sections(modified_html):
                 section_title = section_title_init.text.strip()
             else:
                 pass
-            
+
             # Check if there is nested content
             nested_content_spans = section.find_all('span', class_='akn-p')
             nested_contents = []
             for span in nested_content_spans:
                 nested_content = span.text.strip()
                 nested_contents.append(nested_content)
-            
+
             writer.writerow([section_title, ', '.join(nested_contents)])
 
-def extract_text(doc_number):
+
+def extract_text(doc_number, ik_api):
     url = f'https://api.indiankanoon.org/doc/{doc_number}/'
     try:
+        headers = {
+            'authorization': f"Token {ik_api}"
+        }
         response = requests.post(url, headers=headers)
         response.raise_for_status()  # Checks for HTTP request errors
 
@@ -87,24 +76,5 @@ def extract_text(doc_number):
 
         extract_sections(modified_html)
 
-        '''with open("cleaned_text.txt", "w") as file:
-            file.write(cleaned_text)
-
-        with open("Response.txt", "w") as file:
-            file.write(str(res))
-        '''
-
-        #return res
-
-    except Exception as e:
-        print(f"Error: {e}")
-
-
-if __name__ == "__main__":
-    print(extract_text(69243531))
-    #print(extract_text(159820889))
-    '''with open('Response.txt', 'r') as html_file:
-        html_contents=html_file.read()
-
-    extract_sections(html_contents)
-    '''
+    except:
+        pass

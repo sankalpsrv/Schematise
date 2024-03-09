@@ -23,23 +23,22 @@ The application and source-code is distributed under an Affero GPL license, acco
 
 ### How to run locally – Streamlit app:
 
-1. Change directory to "Streamlit" and install the requirements (preferably in a conda shell):
-    1. First run `conda env create -n condaenvironmentname`; 
-    2. and after that activate the conda environment using `conda env activate condaenvironmentname`;
-    3. then run `conda install pip`
-    4. Lastly, run `pip install -r requirements.txt`
-2. Run `streamlit run Schematise.py`
-3. Clear cache when needed (such as to re-generate XML for the same sections)
+1. Clone the "streamlit" branch using the following command - `git clone -b streamlit https://github.com/sankalpsrv/Schematise.git`
+2. (Optional) Create virtual environment inside the home directory "Schematise" - `virtualenv Schematise`
+   `source /complianalyse/bin/activate` 
+3. Install requirements via txt file `pip install -r requirements.txt`
+4. run `python Schematise.py`
 
 ### How to run locally – Llama-2-7b-chat on GPU:
 
-    1. Change directory to "LocalWorkflow" and install the requirements (preferably in a conda shell) 
+    1. Clone the “dev” branch using `git clone -b dev https://github.com/sankalpsrv/Schematise.git`
+    2. Change directory to "LocalWorkflow" and install the requirements (preferably in a conda shell) 
         1. First run `conda env create -n condaenvironmentname`; 
         2. and after that activate the conda environment using `conda env activate condaenvironmentname`; 
         3. then you can install the package dependencies using `conda env update --file condaenvironment.yml `.
-    2. Replace “fullsections.csv” with the file 
-    3. Specify your model from HugingFace in Line 54 of model.py - I use GPTQ quantisation because of the larger context window. 
-    4. Run python main.py 
+    3. Replace “fullsections.csv” with the file 
+    4. Specify your model from HugingFace in Line 54 of model.py - I use GPTQ quantisation because of the larger context window. 
+    5. Run python main.py 
 
 
 ### How to use the Streamlit app:
