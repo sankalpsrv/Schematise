@@ -3,26 +3,26 @@ import pandas as pd
 import combinedProcess, utils
 from decouple import config
 import IK_templates
-ik_api = config('IK_API_KEY', default = '')
-openai_key = config('OPENAI_API_KEY', default = '')
 
-st.session_state['openai_key'] = openai_key
-st.session_state['ik_api'] = ik_api
+
 
 filename = "fullsections.csv"
 
-@st.cache_data
-def set_env(request, key):
+
+def set_env(key = '', request = ''):
     global ik_api, openai_key
     if request == "openai":
         openai_key = key
         st.session_state['openai_key'] = openai_key
-    else:
+    elif request == "ikanoon":
         ik_api = key
         st.session_state['ik_api'] = ik_api
-    with open('.env', 'w') as fn:
-        print("Executing set_env function")
-        fn.write(f"OPENAI_API_KEY={openai_key}\nIK_API_KEY={ik_api}")
+    else:
+        
+        return st.session_state['ik_api'], st.session_state['openai_key']
+    #with open('.env', 'w') as fn:
+    #    print("Executing set_env function")
+    #    fn.write(f"OPENAI_API_KEY={openai_key}\nIK_API_KEY={ik_api}")
 
 @st.cache_data
 def load_data(filename, start_value, end_value):
@@ -35,6 +35,11 @@ def get_XML(df2, llm_selected, format_chosen):
     openai_key = st.session_state['openai_key']
     XML_responses = combinedProcess.responseGetter(openai_key, df2, llm_selected, format_chosen)
     return XML_responses
+
+ik_api, openai_key = set_env()
+
+st.session_state['openai_key'] = openai_key
+st.session_state['ik_api'] = ik_api
 
 st.image('Schematise-logo-light.png')
 
@@ -64,7 +69,7 @@ if condition_for_csv == "Upload":
 else:
     if ik_api == '':
         ik_api=st.text_input("Please enter your IndianKanoon API Key")
-        set_env("ikanoon", ik_api)
+        set_env(ik_api, "ikanoon")
 
     else:
         print(f"IndianKanoon API key is {ik_api}")
@@ -101,8 +106,9 @@ llm_selected = st.radio(
 
 
 if llm_selected == 'OpenAI' and openai_key == '':
+    print ("Session state variable for OpenAI is", st.session_state['openai_key'])
     openai_key_input = st.text_input("OpenAI API Key")
-    set_env("openai", openai_key_input)
+    set_env(openai_key_input, "openai")
 
 try:
     XML_responses = get_XML(df2, llm_selected, format_chosen)
