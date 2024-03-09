@@ -53,7 +53,7 @@ def get_metamodel_response(XML_responses, llm_selected, metamodels_to_process):
     i=0
     for XML_fragment in XML_responses:
         i+=1
-        new_text_value.append(metamodelAndRAG.metamodel_operations(XML_fragment, i, metamodels_to_process, llm_selected))
+        new_text_value.append(metamodelAndRAG.metamodel_operations(openai_key, XML_fragment, i, metamodels_to_process, llm_selected))
     return new_text_value
 
 try:
@@ -70,6 +70,7 @@ try:
         key_id = str(next(widget_id))
         key_id_1 = "condn" + str(key_id)
         key_id_6 = "finalwrite" + str(key_id)
+        key_id_7 = "downloadbutton" + str(key_id)
         input_for_metamodel = st.radio(
             'Do you want to align with the metadata model? Enter "Yes" to continue with metamodel alignment or "No" to continue without doing so', ["No", "Yes"], key = key_id_1)
 
@@ -84,6 +85,11 @@ try:
         new_XML_responses = cache_XML_responses(tweaked_XML)
 
         XML_responses = new_XML_responses
+
+        st.download_button(label = "Download XML generated", 
+                        data = str(tweaked_XML),
+                        file_name = f'{metamodels_to_process}_modifiedXML.txt')
+
 
     else:
         st.write("This page only loads if you have selected 'legalruleml' as the option for generation")
