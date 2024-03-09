@@ -8,6 +8,11 @@ import IK_templates
 
 filename = "fullsections.csv"
 
+if 'openai_key' not in st.session_state:
+    st.session_state['openai_key'] = ''
+
+if 'ik_api' not in st.session_state:
+    st.session_state['ik_api'] = ''
 
 def set_env(key = '', request = ''):
     global ik_api, openai_key
