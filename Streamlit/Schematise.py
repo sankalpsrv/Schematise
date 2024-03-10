@@ -160,12 +160,19 @@ def main():
 if __name__ == "__main__":
 
     buttonpress = False
-    st.error("Disclaimer: This is an AI application that will generate XML output for a law inputted by you. It is not a replacement for legal advice.")
 
-    buttonpress= st.button("Yes, I understand. Please take me to the application")
+    if 'disclaimer' not in st.session_state:
+        st.session_state['disclaimer'] = False
+    
+    if st.session_state['disclaimer'] is False:
+        
+        st.error("Disclaimer: This is an AI application that will generate XML output for a law inputted by you. It is not a replacement for legal advice.")
 
-    if buttonpress is True:
+        buttonpress= st.button("Yes, I understand. Please take me to the application")
+
+    if buttonpress is True or st.session_state['disclaimer'] is True:
         st.error("You have accepted the disclaimer.")
+        st.session_state['disclaimer'] = True
         main()
         
 
