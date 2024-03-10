@@ -1,8 +1,12 @@
-# Schematise (formerly "Complianalyse")
+# Schematise
 ### Submission to [The Fifth Elephant's Open Source AI Hackathon](https://hasgeek.com/fifthelephant/open-source-ai-hackathon/)
 
 ### Overview 
 Schematise is an LLM enabled XML generator for Indian statutes and laws in the Akoma Ntoso and LegalRuleML schemas. It utilises certain examples as few shot prompts and RAG prompting with the different meta models as context. It makes use of prompt engineering and RAG prompting to generate XML, with the option for users to provide input regarding which places need further tweaking in a Human in the Loop approach. The program is available as an open-sourced streamlit app, and is built on the LangChain framework to allow users to choose between OpenAI or Llama2. The latter makes it possible to generate datasets for fine tuning, which OpenAI restricts. 
+
+### Disclaimer 
+
+This is an AI application that generates XML versions of laws (statutes/rules) inputted by you. It is not a replacement for legal advice.
 
 ### License 
 The application and source-code is distributed under an Affero GPL license, according to which any modification or redistribution (even if as a web-app) must be redistributed on the same terms. 
@@ -13,7 +17,7 @@ The application and source-code is distributed under an Affero GPL license, acco
 3) Similarity comparison for two sections of the generated schema.
 4) Choice between OpenAI (GPT3.5 turbo) or local deployment of Llama2-7b-chat via Hugging Face Transformers library. 
 
-### Requirements for running the Streamlit version (hosted at https://schematise.streamlit.io):
+### Requirements for running the Streamlit version (hosted at https://schematise.streamlit.app):
 
 1. A valid OpenAI API key.
 2. Either an IndianKanoon API key, or,
@@ -117,8 +121,7 @@ The application and source-code is distributed under an Affero GPL license, acco
 
 ### Ethical considerations
 
-- App shall provide a disclaimer before executing and at the generated results in each case regarding the results not constituting legal advice.
-- No user data will be sought or stored in any place. The database integration will store the inference results for each statute.
+- No user data will be sought or stored in any place. The database integration (in the future) will store the inference results for each statute.
 
 
 ### LLMs being compared
