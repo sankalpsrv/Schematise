@@ -4,11 +4,16 @@ import utils
 
 import json
 
-def responseGetter(df2, XML_arg, num_interval = 5):
+def responseGetter(df2, XML_arg, llm = "OpenAI", format_chosen = "legaldocml", num_interval = 5):
 
 
     XML_responses = []
-    string_namespace = '<LegalRuleML xmlns:lrml="http://www.oasis-open.org/committees/legalruleml">'
+    if format_chosen == "legalruleml":
+        string_namespace = '<LegalRuleML xmlns:lrml="http://www.oasis-open.org/committees/legalruleml" xmlns:ruleml="http://www.oasis-open.org/committees/legalruleml">'
+        string_end = "</LegalRuleML>"
+    else:
+        string_namespace = '<akomaNtoso>'
+        string_end = "</akomaNtoso>"
     i = 0
 
     for index, row in df2.iterrows():
@@ -25,28 +30,26 @@ def responseGetter(df2, XML_arg, num_interval = 5):
         result = '' # Accounting for instances where empty output has been generated
         while not result or len(result) < 250:
             model.instantiate_model()
-            result = model.send_request(section_for_conversion)
-
+            result = model.send_request(section_for_conversion, llm, format_chosen)
 
         filename = f"_cache/section_{i}"
         with open(filename, "w") as fn:
             fn.write(str(result))
 
-        #result_json = json.loads(result)
+        # result_json = json.loads(result)
 
         # Extract the codeblock
-        #text_value_old = result_json['choices'][0]['message']['content']
+        # text_value_old = result_json['choices'][0]['message']['content']
         text_value = utils.strip_code_block(result)
         filename_debug_old = "./_cache/old_text_value_" + str(i) + ".txt"
         filename_debug_stripped = "./_cache/text_value_stripped_" + str(i) + ".txt"
         with open(filename_debug_old, "w") as fn:
             fn.write(result)
-        with open(filename_debug_stripped , "w") as fn:
+        with open(filename_debug_stripped, "w") as fn:
             fn.write(text_value)
 
-
-        if len(XML_responses) == 0:
-            new_text_value = string_namespace + text_value
+        if llm == 'OpenAI':
+            new_text_value = result
         else:
             new_text_value = text_value
         # This code has been removed due to the process taking more memory on a Local Deployment than available
@@ -62,7 +65,9 @@ def responseGetter(df2, XML_arg, num_interval = 5):
         XML_responses.append(new_text_value)
         print (f"XML structure on the number {i} iteration is as follows: \n{XML_responses}")
 
-    return XML_responses
+    joined_XML_responses = string_namespace + '\n'.join(XML_responses) + string_end
+
+    return joined_XML_responses
 
 
 ## The following two functions metamodel_options and similarityProcess - are for future integration
