@@ -17,6 +17,7 @@ The application and source-code is distributed under an Affero GPL license, acco
 3) Similarity comparison for two sections of the generated schema.
 4) Choice between OpenAI (GPT3.5 turbo) or local deployment of Llama2-7b-chat via Hugging Face Transformers library. 
 
+
 ### Documentation
 
 - Documentation has been added using mkdocs and is [hosted online](https://schematise.onrender.com)
