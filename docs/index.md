@@ -1,5 +1,9 @@
 # Welcome to the Schematise Documentation
 
+CLICK HERE TO ACCESS [THE HOSTED STREAMLIT APP](https://schematise.streamlit.app)
+
+CLICK HERE TO ACCESS [THE GITHUB REPO](https://github.com/sankalpsrv/Schematise)
+
 - Developed by Sankalp Srivastava for the FifthElephant's Open Source AI Hackathon.
 
 - It is a statute to XML converter that seeks maximum possible adherence with the AkomaNtoso and LegalRuleML family of XML formats.
