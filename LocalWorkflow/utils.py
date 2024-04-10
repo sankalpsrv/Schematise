@@ -2,16 +2,13 @@ import pandas as pd
 import xml.etree.ElementTree as ET
 from thefuzz import fuzz
 import re
-def csv_parser():
+def csv_parser(filename, df_condition = "0"):
 
-    csv_filename = 'fullsections.csv' # file containing all the sections from the E-Waste Rules, generated via IK_interface function
-
-    df_condition = "1"
     # Read the CSV file into a Pandas DataFrame
-    df = pd.read_csv(csv_filename)
+    df = pd.read_csv(filename)
 
     if df_condition == "1":
-        df2 = df.iloc[70:73]
+        df2 = df.iloc[0:3]
     else:
         df2=df.copy()
 

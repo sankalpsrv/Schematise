@@ -17,6 +17,13 @@ The application and source-code is distributed under an Affero GPL license, acco
 3) Similarity comparison for two sections of the generated schema.
 4) Choice between OpenAI (GPT3.5 turbo) or local deployment of Llama2-7b-chat via Hugging Face Transformers library. 
 
+
+### Documentation
+
+- Documentation has been added using mkdocs and is [hosted online](https://schematise.onrender.com)
+- This is done primarily as a way to enable contributions and supplements the GitHub README with information for those wishing to look further into technical details.
+- There is also a directory named Notebook-of-approaches which documents all the decisions, explained in further detail in section titled ["Progress"](#progress) below
+
 ### Requirements for running the Streamlit version (hosted at https://schematise.streamlit.app):
 
 1. A valid OpenAI API key.
@@ -102,9 +109,6 @@ The application and source-code is distributed under an Affero GPL license, acco
 
 # Progress
 
-### [Go to "dev" branch (click here) to view more frequent development updates](https://github.com/sankalpsrv/Schematise/tree/dev)
-
-
 - Was able to test the few-shot learning in-context learning approach via LangChain and OpenAI. Due to token limits on LangChain, using a split approach was necessary.
 - Nevertheless, was able to generate LegalRuleML code via this approach - [available in this notebook (click here)](https://github.com/sankalpsrv/Complianalyse/blob/main/LangChain_FewShot.ipynb)
 - The test output generated for the entire Bio-medical Waste Rules is here - [testbmw.txt](https://github.com/sankalpsrv/Complianalyse/blob/main/src/testbmw.txt)
@@ -116,6 +120,8 @@ The application and source-code is distributed under an Affero GPL license, acco
 - [Opened a dev branch](https://github.com/sankalpsrv/Schematise/tree/dev) - contains work on putting together the developed components. So far have uploaded the Azure Machine Learning Endpoints approach, will be adding more with local deployment.
 - Tested various models and their quantisations for context windows, GPTQ quantised version accepts a larger context and the output is [uploaded in a notebook](https://github.com/sankalpsrv/Schematise/blob/main/Notebook-of-approaches/LocalLlama-LangChain.ipynb)
 - Ported the entire app to Streamlit and [hosted it on their Community Cloud](https://schematise.streamlit.app). The code for this is in the ["streamlit" branch](https://github.com/sankalpsrv/Schematise/tree/streamlit)
+- Made the LocalWorkflow CLI more robust (April 2nd)
+- Added documentation in the mkdocs format to a separate branch which is [hosted online](https://schematise.onrender.com) (dated April 10th)
 
 <img src = "./Flowchart.png" alt="A flowchart showing the different components of the programm which flows from Templates through to Part 1 where a combined XML is generated, and Part 2 where it is validated">
 
@@ -190,3 +196,5 @@ The following models will be considered later, if required
 4. Compare each of the approaches and select a default approach, as well as integrate each approach into the application.
 
 5. Lastly, to save inference time, integrations with PostgreSQL/sqlite for the cached versions of laws will be stored in the working directory itself.
+
+6. Release datasets and demonstrate use-cases that have a community relevance.
