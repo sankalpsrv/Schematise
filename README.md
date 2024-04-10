@@ -1,8 +1,12 @@
-# Schematise (formerly "Complianalyse")
+# Schematise
 ### Submission to [The Fifth Elephant's Open Source AI Hackathon](https://hasgeek.com/fifthelephant/open-source-ai-hackathon/)
 
 ### Overview 
 Schematise is an LLM enabled XML generator for Indian statutes and laws in the Akoma Ntoso and LegalRuleML schemas. It utilises certain examples as few shot prompts and RAG prompting with the different meta models as context. It makes use of prompt engineering and RAG prompting to generate XML, with the option for users to provide input regarding which places need further tweaking in a Human in the Loop approach. The program is available as an open-sourced streamlit app, and is built on the LangChain framework to allow users to choose between OpenAI or Llama2. The latter makes it possible to generate datasets for fine tuning, which OpenAI restricts. 
+
+### Disclaimer 
+
+This is an AI application that generates XML versions of laws (statutes/rules) inputted by you. It is not a replacement for legal advice.
 
 ### License 
 The application and source-code is distributed under an Affero GPL license, according to which any modification or redistribution (even if as a web-app) must be redistributed on the same terms. 
@@ -13,13 +17,19 @@ The application and source-code is distributed under an Affero GPL license, acco
 3) Similarity comparison for two sections of the generated schema.
 4) Choice between OpenAI (GPT3.5 turbo) or local deployment of Llama2-7b-chat via Hugging Face Transformers library. 
 
-### Requirements for running the OpenAI version:
+### Documentation
 
-    1. A valid OpenAI API key.
-    2. Either an IndianKanoon API key, or,
-       A CSV file with each section title and section on a new row. Format for the same is available at the [following link (click here to view)](https://raw.githubusercontent.com/sankalpsrv/Schematise/dev/fullsections.csv).
-    3. A web-browser.
-    4. A file editor (optional).
+- Documentation has been added using mkdocs and is [hosted online](https://schematise.onrender.com)
+- This is done primarily as a way to enable contributions and supplements the GitHub README with information for those wishing to look further into technical details.
+- There is also a directory named Notebook-of-approaches which documents all the decisions, explained in further detail in section titled ["Progress"](#progress) below
+
+### Requirements for running the Streamlit version (hosted at https://schematise.streamlit.app):
+
+1. A valid OpenAI API key.
+2. Either an IndianKanoon API key, or,
+   A CSV file with each section title and section on a new row. Format for the same is available at the [following link (click here to view)](https://raw.githubusercontent.com/sankalpsrv/Schematise/dev/fullsections.csv).
+3. A web-browser.
+4. A file editor (optional).
 
 ### How to run locally – Streamlit app:
 
@@ -33,73 +43,70 @@ The application and source-code is distributed under an Affero GPL license, acco
 
 ### How to run locally – Llama-2-7b-chat on GPU:
 
-    1. Change directory to "LocalWorkflow" and install the requirements (preferably in a conda shell) 
-        1. First run `conda env create -n condaenvironmentname`; 
-        2. and after that activate the conda environment using `conda env activate condaenvironmentname`; 
-        3. then you can install the package dependencies using `conda env update --file condaenvironment.yml `.
-    2. Replace “fullsections.csv” with the file 
-    3. Specify your model from HugingFace in Line 54 of model.py - I use GPTQ quantisation because of the larger context window. 
-    4. Run python main.py 
+1. Change directory to "LocalWorkflow" and install the requirements (preferably in a conda shell) 
+    1. First run `conda env create -n condaenvironmentname`; 
+    2. and after that activate the conda environment using `conda env activate condaenvironmentname`; 
+    3. then you can install the package dependencies using `conda env update --file condaenvironment.yml `.
+2. Replace “fullsections.csv” with the file 
+3. Specify your model from HugingFace in Line 54 of model.py - I use GPTQ quantisation because of the larger context window. 
+4. Run python main.py 
 
 
 ### How to use the Streamlit app:
 
 ##### Main-page:
 
-    1. Choose whether you want to upload the CSV file or proceed with an IndianKanoon URL.
-    2. If selected “Upload”, put a CSV file in the format provided on the link in the app. For reference, see point number 2 of requirements. You can also leave blank to work with the default CSV, which is the E-Waste (Management) Rules, 2016.
-    3. Choose LegalDocML or LegalRuleML as the format you want the XML in. Only one is generated at a time. Metamodel can be applied for tweaking only if LegalRuleML is selected.
-    4. Enter the starting range and ending range as the rows you want the XML generated for, from the CSV.
-    5. Check the checkbox for viewing the dataframe to preview the rows you have selected from the CSV.
-    6. Choose OpenAI as the LLM. Llama2 support for the UI app is yet to come.
-    7. Click “Download XML generated” to get the XML generated in the format you have chosen as a “.txt” file. 
+1. Choose whether you want to upload the CSV file or proceed with an IndianKanoon URL.
+2. If selected “Upload”, put a CSV file in the format provided on the link in the app. For reference, see point number 2 of requirements. You can also leave blank to work with the default CSV, which is the E-Waste (Management) Rules, 2016.
+3. Choose LegalDocML or LegalRuleML as the format you want the XML in. Only one is generated at a time. Metamodel can be applied for tweaking only if LegalRuleML is selected.
+4. Enter the starting range and ending range as the rows you want the XML generated for, from the CSV.
+5. Check the checkbox for viewing the dataframe to preview the rows you have selected from the CSV.
+6. Choose OpenAI as the LLM. Llama2 support for the UI app is yet to come.
+7. Click “Download XML generated” to get the XML generated in the format you have chosen as a “.txt” file. 
 
 ##### Metamodel page:
 
-    1. Choose which metamodel you would like to provide as context to the LLM to modify the LegalRuleML generated in accordance with. These are 7 of the metamodels chosen from the LegalRuleML core specification page. 
-        1. Context
-        2. Defeasible
-        3. Deontic
-        4. Legal Temporal
-        5. Metadata actor
-        6. Metadata jurisdiction authority
-        7. Statement
-    2. After choosing, the metamodel is automatically generated.
-    3. Click “Download XML generated” to get the XML generated in the format you have chosen as a “.txt” file.
-    4. You can choose to opt for more tweaking, by choosing the option described in step 1 again. 
+1. Choose which metamodel you would like to provide as context to the LLM to modify the LegalRuleML generated in accordance with. These are 7 of the metamodels chosen from the LegalRuleML core specification page. 
+    1. Context
+    2. Defeasible
+    3. Deontic
+    4. Legal Temporal
+    5. Metadata actor
+    6. Metadata jurisdiction authority
+    7. Statement
+2. After choosing, the metamodel is automatically generated.
+3. Click “Download XML generated” to get the XML generated in the format you have chosen as a “.txt” file.
+4. You can choose to opt for more tweaking, by choosing the option described in step 1 again. 
 
 ##### Similarity page:
 
-    1. Select two index numbers (starts with zero) that you want to check for similarities.
-    2. If both the XML fragments are well-formed, it will immediately present the similarities between the different XML element tags and attributes.
-    3. If either XML fragment does not validate, then you will be provided the XML fragment along with the option to either upload or edit the XML. 
-    4. After editing, or uploading the XML fragment, you can download the edited XML. 
+1. Select two index numbers (starts with zero) that you want to check for similarities.
+2. If both the XML fragments are well-formed, it will immediately present the similarities between the different XML element tags and attributes.
+3. If either XML fragment does not validate, then you will be provided the XML fragment along with the option to either upload or edit the XML. 
+4. After editing, or uploading the XML fragment, you can download the edited XML. 
 
 ### FAQ:
 
-    1. Why “.txt” format for downloading the XML? 
-       This format is chosen because the XML generated will have to be well formed and validated before it is stored as a “.xml” file. See “Similarity page” for more details. 
-    2. Why do I need to provide an IndianKanoon key?
-       It is not necessary to provide an IndianKanoon key, you can proceed with an uploaded csv file in the format available at the [following link (click here to view)](https://raw.githubusercontent.com/sankalpsrv/Schematise/dev/fullsections.csv).
-    3. Why do I have to provide my OpenAI key?
-       The Streamlit community cloud hosted version works with OpenAI. However, you can always use the local inferencing available on the [GitHub repository (click here to visit)](https://github.com/sankalpsrv/Schematise)
-    4. Why can metamodel only be used for “LegalRuleML”?
-       This is because of the availability of a metamodel for LegalRuleML, which is not the case for LegalDocML. However, in the future version, identifiable aspects of the LegalDocML documentation with examples will also be added.
-    5. Why are only 7 of the metamodels used as context?
-       The metamodels to be provided as context were chosen on the basis of their coverage of the concepts defined in the LegalRuleML core specification. You can view the paragraphs chosen as context in the file [“metamodels_combined” in the “Docs” folder](https://github.com/sankalpsrv/Schematise/blob/dev/Streamlit/Docs/metamodels_combined.txt) 
-       The following metamodels were excluded:
-       - “Alternative” – seeks to implement alternative interpretations, which does not occur as the LLM is not prompted for it;
-       - “Rulemm” – contains distinct elements which appear to be mutually exclusive and without documentation in the LegalRuleML core specification;
-       - “Source” – contains the elements for describing where the text has been ‘sourced’ from, which will require a specific input by the user;
-       - “Upper” – contains the elements associated with comments passed, which is not something that the LLM is being prompted for.
-       - “Wrapper” – contains enclosing XML elements only for various purposes and they do not pertain to a single  category of elements.
-    6. What is the similarity page for?
-       It has been noticed that the XML which is generated through successive iteration through the CSV files can have an inconsistent representation of provisions in XML elements or attributes. In other words, similarly named elements and attributes are generated where an element or attribute should have had the same name as was for an earlier generated XML for a section. This page allows you to detect this similarity using Python’s [“TheFuzz” library’s Simple Ratio](https://pypi.org/project/thefuzz/). 
+1. Why “.txt” format for downloading the XML? 
+   This format is chosen because the XML generated will have to be well formed and validated before it is stored as a “.xml” file. See “Similarity page” for more details. 
+2. Why do I need to provide an IndianKanoon key?
+   It is not necessary to provide an IndianKanoon key, you can proceed with an uploaded csv file in the format available at the [following link (click here to view)](https://raw.githubusercontent.com/sankalpsrv/Schematise/dev/fullsections.csv).
+3. Why do I have to provide my OpenAI key?
+   The Streamlit community cloud hosted version works with OpenAI. However, you can always use the local inferencing available on the [GitHub repository (click here to visit)](https://github.com/sankalpsrv/Schematise)
+4. Why can metamodel only be used for “LegalRuleML”?
+   This is because of the availability of a metamodel for LegalRuleML, which is not the case for LegalDocML. However, in the future version, identifiable aspects of the LegalDocML documentation with examples will also be added.
+5. Why are only 7 of the metamodels used as context?
+   The metamodels to be provided as context were chosen on the basis of their coverage of the concepts defined in the LegalRuleML core specification. You can view the paragraphs chosen as context in the file [“metamodels_combined” in the “Docs” folder](https://github.com/sankalpsrv/Schematise/blob/dev/Streamlit/Docs/metamodels_combined.txt) 
+   The following metamodels were excluded:
+   - “Alternative” – seeks to implement alternative interpretations, which does not occur as the LLM is not prompted for it;
+   - “Rulemm” – contains distinct elements which appear to be mutually exclusive and without documentation in the LegalRuleML core specification;
+   - “Source” – contains the elements for describing where the text has been ‘sourced’ from, which will require a specific input by the user;
+   - “Upper” – contains the elements associated with comments passed, which is not something that the LLM is being prompted for.
+   - “Wrapper” – contains enclosing XML elements only for various purposes and they do not pertain to a single  category of elements.
+6. What is the similarity page for?
+   It has been noticed that the XML which is generated through successive iteration through the CSV files can have an inconsistent representation of provisions in XML elements or attributes. In other words, similarly named elements and attributes are generated where an element or attribute should have had the same name as was for an earlier generated XML for a section. This page allows you to detect this similarity using Python’s [“TheFuzz” library’s Simple Ratio](https://pypi.org/project/thefuzz/). 
 
 # Progress
-
-### [Go to "dev" branch (click here) to view more frequent development updates](https://github.com/sankalpsrv/Schematise/tree/dev)
-
 
 - Was able to test the few-shot learning in-context learning approach via LangChain and OpenAI. Due to token limits on LangChain, using a split approach was necessary.
 - Nevertheless, was able to generate LegalRuleML code via this approach - [available in this notebook (click here)](https://github.com/sankalpsrv/Complianalyse/blob/main/LangChain_FewShot.ipynb)
@@ -112,13 +119,14 @@ The application and source-code is distributed under an Affero GPL license, acco
 - [Opened a dev branch](https://github.com/sankalpsrv/Schematise/tree/dev) - contains work on putting together the developed components. So far have uploaded the Azure Machine Learning Endpoints approach, will be adding more with local deployment.
 - Tested various models and their quantisations for context windows, GPTQ quantised version accepts a larger context and the output is [uploaded in a notebook](https://github.com/sankalpsrv/Schematise/blob/main/Notebook-of-approaches/LocalLlama-LangChain.ipynb)
 - Ported the entire app to Streamlit and [hosted it on their Community Cloud](https://schematise.streamlit.app). The code for this is in the ["streamlit" branch](https://github.com/sankalpsrv/Schematise/tree/streamlit)
+- Made the LocalWorkflow CLI more robust (April 2nd)
+- Added documentation in the mkdocs format to a separate branch which is [hosted online](https://schematise.onrender.com) (dated April 10th)
 
 <img src = "./Flowchart.png" alt="A flowchart showing the different components of the programm which flows from Templates through to Part 1 where a combined XML is generated, and Part 2 where it is validated">
 
 ### Ethical considerations
 
-- App shall provide a disclaimer before executing and at the generated results in each case regarding the results not constituting legal advice.
-- No user data will be sought or stored in any place. The database integration will store the inference results for each statute.
+- No user data will be sought or stored in any place. The database integration (in the future) will store the inference results for each statute.
 
 
 ### LLMs being compared
@@ -187,3 +195,5 @@ The following models will be considered later, if required
 4. Compare each of the approaches and select a default approach, as well as integrate each approach into the application.
 
 5. Lastly, to save inference time, integrations with PostgreSQL/sqlite for the cached versions of laws will be stored in the working directory itself.
+
+6. Release datasets and demonstrate use-cases that have a community relevance.
