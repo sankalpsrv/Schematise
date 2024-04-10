@@ -1,9 +1,0 @@
-langchain
-langchain_openai
-openai
-pandas
-beautifulsoup4
-requests
-thefuzz
-streamlit
-python-decouple

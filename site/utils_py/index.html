@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>utils.py - Schematise Docs</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "utils.py";
+        var mkdocs_page_input_path = "utils_py.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Schematise Docs
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Schematise_py-and-main_py/">Main.py</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../model_py/">model.py</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../combinedprocess_py/">combinedProcess.py</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../metamodelAndRAG_py/">metamodelAndRAG.py</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">utils.py</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#table-of-contents">Table of Contents</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#1-introduction">1. Introduction</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#2-import-statements">2. "import" statements</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#3-functions-and-classes">3. Functions and classes</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#csv_parserfilename-start_value70-end_value73">csv_parser(filename, start_value=70, end_value=73)</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#find_last_closing_tag_indexxml_string">find_last_closing_tag_index(xml_string)</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#strip_code_blockstring">strip_code_block(string)</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#xml_similarityxml_responses-text_value">XML_Similarity(XML_responses, text_value)</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#4-checklist-of-features-across-formats">4. Checklist of features across formats</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Schematise Docs</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">utils.py</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="utilspy">utils.py</h1>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li>Introduction</li>
+<li>"import" statements</li>
+<li>Functions </li>
+<li>Checklist of features across Streamlit and LocalWorkflow</li>
+</ol>
+<h3 id="1-introduction">1. Introduction</h3>
+<p>This contains a set of utility functions that are necessary to be invoked across various modules in the app.</p>
+<h3 id="2-import-statements">2. "import" statements</h3>
+<ul>
+<li>thefuzz </li>
+<li>Used for calculating SimpleRatio</li>
+<li>pandas</li>
+<li>Used to create dataframe out of CSV file</li>
+<li>xml.etree</li>
+<li>For parsing the contents of the XML file</li>
+</ul>
+<h3 id="3-functions-and-classes">3. Functions and classes</h3>
+<h4 id="csv_parserfilename-start_value70-end_value73">csv_parser(filename, start_value=70, end_value=73)</h4>
+<ul>
+<li>creates a dataframe using pandas</li>
+<li>range can be specified by setting df_condition to "1"</li>
+</ul>
+<h4 id="find_last_closing_tag_indexxml_string">find_last_closing_tag_index(xml_string)</h4>
+<ul>
+<li>finds the last closing tag '&gt;' to strip the code block from the XML output generated</li>
+</ul>
+<h4 id="strip_code_blockstring">strip_code_block(string)</h4>
+<ul>
+<li>Used in LocalWorkflow and with HuggingFacePipeline</li>
+<li>extracts the XML output from the entire chat response of the LLM</li>
+<li>This ensures that XML_operations such as similarity processing and checking for general validity can be conducted even when using the LocalWorkflow</li>
+</ul>
+<h4 id="xml_similarityxml_responses-text_value">XML_Similarity(XML_responses, text_value)</h4>
+<ul>
+<li>takes two XML files, depending on the index numbers chosen by the user from the dataframe</li>
+<li>creates a dictionary of elements and attributes</li>
+<li>calculates the similarity between each element and attribute from each of the XML files, comparing both elements and attributes of each file with each other.</li>
+<li>Reason: In the absence of consistency amongst similarly generated XML tags across various iterations, they are compared so that user can change serialisation of the numbering if it occurs across various tags</li>
+<li>WIP: It may be necessary to allow user to view and select each XML portion as per their preference, or check throughout the document</li>
+<li>Currently implemented only in Streamlit GUI</li>
+</ul>
+<h3 id="4-checklist-of-features-across-formats">4. Checklist of features across formats</h3>
+<p>(TBD = To Be Developed)</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Streamlit</th>
+<th>LocalWorkflow</th>
+<th>LegalDocML</th>
+<th>LegalRuleML</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dataframe generation</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>strip_code_block</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>XML_similarity testing</td>
+<td>Yes</td>
+<td>TBD</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../metamodelAndRAG_py/" class="btn btn-neutral float-left" title="metamodelAndRAG.py"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../metamodelAndRAG_py/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
