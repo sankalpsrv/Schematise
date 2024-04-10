@@ -43,6 +43,20 @@
                 <li class="toctree-l1 current"><a class="reference internal current" href=".">Home</a>
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#project-layout-documentation">Project layout (documentation)</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#how-to-use-the-streamlit-app">How to use the Streamlit app:</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#main-page">Main-page:</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#metamodel-page">Metamodel page:</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#similarity-page">Similarity page:</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#faq">FAQ:</a>
+    </li>
+        </ul>
     </li>
     </ul>
                 </li>
@@ -91,6 +105,8 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="welcome-to-the-schematise-documentation">Welcome to the Schematise Documentation</h1>
+<p>CLICK HERE TO ACCESS <a href="https://schematise.streamlit.app">THE HOSTED STREAMLIT APP</a></p>
+<p>CLICK HERE TO ACCESS <a href="https://github.com/sankalpsrv/Schematise">THE GITHUB REPO</a></p>
 <ul>
 <li>
 <p>Developed by Sankalp Srivastava for the FifthElephant's Open Source AI Hackathon.</p>
@@ -112,6 +128,61 @@ docs/
     metamodelAndRAG_py.md
     utils_py.md
 </code></pre>
+<h3 id="how-to-use-the-streamlit-app">How to use the Streamlit app:</h3>
+<h5 id="main-page">Main-page:</h5>
+<ol>
+<li>Choose whether you want to upload the CSV file or proceed with an IndianKanoon URL.</li>
+<li>If selected “Upload”, put a CSV file in the format provided on the link in the app. For reference, see point number 2 of requirements. You can also leave blank to work with the default CSV, which is the E-Waste (Management) Rules, 2016.</li>
+<li>Choose LegalDocML or LegalRuleML as the format you want the XML in. Only one is generated at a time. Metamodel can be applied for tweaking only if LegalRuleML is selected.</li>
+<li>Enter the starting range and ending range as the rows you want the XML generated for, from the CSV.</li>
+<li>Check the checkbox for viewing the dataframe to preview the rows you have selected from the CSV.</li>
+<li>Choose OpenAI as the LLM. Llama2 support for the UI app is yet to come.</li>
+<li>Click “Download XML generated” to get the XML generated in the format you have chosen as a “.txt” file. </li>
+</ol>
+<h5 id="metamodel-page">Metamodel page:</h5>
+<ol>
+<li>Choose which metamodel you would like to provide as context to the LLM to modify the LegalRuleML generated in accordance with. These are 7 of the metamodels chosen from the LegalRuleML core specification page. <ol>
+<li>Context</li>
+<li>Defeasible</li>
+<li>Deontic</li>
+<li>Legal Temporal</li>
+<li>Metadata actor</li>
+<li>Metadata jurisdiction authority</li>
+<li>Statement</li>
+</ol>
+</li>
+<li>After choosing, the metamodel is automatically generated.</li>
+<li>Click “Download XML generated” to get the XML generated in the format you have chosen as a “.txt” file.</li>
+<li>You can choose to opt for more tweaking, by choosing the option described in step 1 again. </li>
+</ol>
+<h5 id="similarity-page">Similarity page:</h5>
+<ol>
+<li>Select two index numbers (starts with zero) that you want to check for similarities.</li>
+<li>If both the XML fragments are well-formed, it will immediately present the similarities between the different XML element tags and attributes.</li>
+<li>If either XML fragment does not validate, then you will be provided the XML fragment along with the option to either upload or edit the XML. </li>
+<li>After editing, or uploading the XML fragment, you can download the edited XML. </li>
+</ol>
+<h3 id="faq">FAQ:</h3>
+<ol>
+<li>Why “.txt” format for downloading the XML? 
+   This format is chosen because the XML generated will have to be well formed and validated before it is stored as a “.xml” file. See “Similarity page” for more details. </li>
+<li>Why do I need to provide an IndianKanoon key?
+   It is not necessary to provide an IndianKanoon key, you can proceed with an uploaded csv file in the format available at the <a href="https://raw.githubusercontent.com/sankalpsrv/Schematise/dev/fullsections.csv">following link (click here to view)</a>.</li>
+<li>Why do I have to provide my OpenAI key?
+   The Streamlit community cloud hosted version works with OpenAI. However, you can always use the local inferencing available on the <a href="https://github.com/sankalpsrv/Schematise">GitHub repository (click here to visit)</a></li>
+<li>Why can metamodel only be used for “LegalRuleML”?
+   This is because of the availability of a metamodel for LegalRuleML, which is not the case for LegalDocML. However, in the future version, identifiable aspects of the LegalDocML documentation with examples will also be added.</li>
+<li>Why are only 7 of the metamodels used as context?
+   The metamodels to be provided as context were chosen on the basis of their coverage of the concepts defined in the LegalRuleML core specification. You can view the paragraphs chosen as context in the file <a href="https://github.com/sankalpsrv/Schematise/blob/dev/Streamlit/Docs/metamodels_combined.txt">“metamodels_combined” in the “Docs” folder</a> 
+   The following metamodels were excluded:</li>
+<li>“Alternative” – seeks to implement alternative interpretations, which does not occur as the LLM is not prompted for it;</li>
+<li>“Rulemm” – contains distinct elements which appear to be mutually exclusive and without documentation in the LegalRuleML core specification;</li>
+<li>“Source” – contains the elements for describing where the text has been ‘sourced’ from, which will require a specific input by the user;</li>
+<li>“Upper” – contains the elements associated with comments passed, which is not something that the LLM is being prompted for.</li>
+<li>“Wrapper” – contains enclosing XML elements only for various purposes and they do not pertain to a single  category of elements.</li>
+<li>What is the similarity page for?
+   It has been noticed that the XML which is generated through successive iteration through the CSV files can have an inconsistent representation of provisions in XML elements or attributes. In other words, similarly named elements and attributes are generated where an element or attribute should have had the same name as was for an earlier generated XML for a section. This page allows you to detect this similarity using Python’s <a href="https://pypi.org/project/thefuzz/">“TheFuzz” library’s Simple Ratio</a>. </li>
+</ol>
               
             </div>
           </div><footer>
@@ -160,5 +231,5 @@ docs/
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2024-04-10 09:29:13.596913+00:00
+Build Date UTC : 2024-04-10 14:02:28.345876+00:00
 -->
