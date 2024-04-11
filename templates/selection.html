@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Complianalyse (Proof of Concept)</title>
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles.css') }}">
+    <style>
+     /* Style for the tooltip */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: pointer; /* Indicates clickable item */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    visibility: hidden;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+
+    /* Position the tooltip - initially offscreen */
+    position: relative;
+    z-index: 1;
+    transform: translateX(-50%);
+    white-space: nowrap; /* Ensures the text stays on one line initially */
+
+    /* Transition for appearing */
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltiptext,
+.tooltip .tooltiptext.show {
+    visibility: visible;
+    opacity: 1;
+    white-space: break-spaces; /* Allows text wrapping */
+    max-width: 80%; /* Limits width, allowing some margin from viewport edges */
+    max-height:75%;
+    line-height: 2em;
+
+}
+
+.tooltip .close-tooltip {
+        color: red; /* Make close button text red */
+        margin-left: 10px;
+        cursor: pointer;
+    }
+
+@media screen and (max-width: 600px) {
+    .tooltip .tooltiptext {
+        max-width: 100%; /* Allows tooltip to take more space on smaller screens */
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+
+
+    <h2> Select the paragraphs which you want to check for your obligations in (hover to see actual text) </h2>
+
+
+        <p>If you want to read the LegalRuleML version of the AI advisory go to the branch named "Complianalyse" in the following GitHub repository - <a href="https://github.com/sankalpsrv/Schematise" target="_blank">https://github.com/sankalpsrv/Schematise</a></p>
+
+
+    <form method="POST">
+
+        <label>
+            <input type="checkbox" id="select-all"> Select All
+        </label><br>
+
+            <div class="tooltip">
+    <label>
+        <input type="checkbox" name="paragraph2">Paragraph 2
+        <span class="tooltiptext">
+            All <b> <i> intermediaries or platforms </i> </b> to ensure that use of Artificial Intelligence model(s) / LLM / Generative AI, software(s) or algorithm(s) on or through its computer resource does not permit its users to host, display, upload, modify, publish, transmit, store, update or share any unlawful content as outlined in the Rule 3(1)(b) of the IT Rules or violate any other provision of the IT Act. </span>
+    </label>
+</div>
+
+<br>
+<div class="tooltip">
+    <label>
+        <input type="checkbox" name="paragraph3"> Paragraph 3
+        <span class="tooltiptext">
+            All intermediaries or platforms to ensure that their computer resource do not permit any bias or discrimination or threaten the integrity of the electoral process including via the use of Artificial Intelligence model(s)/LLM/Generative AI, software(s) or algorithm(s).
+        </span>
+    </label>
+</div>
+<br>
+        <div class="tooltip">
+    <label>
+        <input type="checkbox" name="paragraph4"> Paragraph 4
+        <span class="tooltiptext">
+            The use of under-testing / unreliable Artificial Intelligence model(s) /LLM/Generative AI, software(s) or algorithm(s) and its availability to the users on Indian Internet must be done so with explicit permission of the Government of India and be deployed only after appropriately labeling the possible and inherent fallibility or unreliability of the output generated. Further, ‘consent popup’ mechanism may be used to explicitly inform the users about the possible and inherent fallibility or unreliability of the output generated.
+        </span>
+    </label>
+</div>
+        <br>
+<div class="tooltip">
+    <label>
+        <input type="checkbox" name="paragraph5"> Paragraph 5
+        <span class="tooltiptext">
+            All users must be clearly informed including through the terms of services and user agreements of the intermediary or platforms about the consequence of dealing with the unlawful information on its platform, including disabling of access to or removal of non-compliant information, suspension or termination of access or usage rights of the user to their user account, as the case may be, and punishment under applicable law.
+        </span>
+    </label>
+</div>
+<br>
+
+        <div class="tooltip">
+    <label>
+        <input type="checkbox" name="paragraph6"> Paragraph 6
+        <span class="tooltiptext">
+Where any intermediary through its software or any other computer resource permits or facilitates synthetic creation, generation or modification of a text, audio, visual or audio-visual information, in such a manner that such information may be used potentially as misinformation or deepfake, it is advised that such information created, generated, or modified through its software or any other computer resource is labeled or embedded with a permanent unique metadata or identifier, by whatever name called, in a manner that such label, metadata or identifier can be used to  identify that such information has been created, generated or modified using computer resource of the intermediary, or identify the user of the software or such other computer resource, the intermediary through whose software or such other computer resource such information has been created, generated or modified and the creator or first originator of such misinformation or deepfake.        </span>
+    </label>
+</div>
+<br>
+    <div class="tooltip">
+    <label>
+        <input type="checkbox" name="paragraph7"> Paragraph 7
+        <span class="tooltiptext">
+It is reiterated that non-compliance to the provisions of the IT Act and/or IT Rules would result in potential penal consequences to the intermediaries or platforms or its users when identified, including but not limited to prosecution under IT Act and several other statues of the criminal code.
+        </span>
+    </label>
+</div>
+<br>
+<div class="tooltip">
+    <label>
+        <input type="checkbox" name="paragraph8"> Paragraph 8
+        <span class="tooltiptext">
+All intermediaries are, hereby requested to ensure compliance with the above with immediate effect and to submit an Action Taken-cum-Status Report to the Ministry within 15 days of this advisory.        </span>
+    </label>
+</div>
+<br>
+
+        <input type="submit" value="Submit">
+    </form>
+</div>
+
+<script>
+        // Get the "Select All" checkbox
+        var selectAllCheckbox = document.getElementById('select-all');
+
+        // Get all checkboxes except for the "Select All" checkbox
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]:not(#select-all)');
+
+        // Add event listener to the "Select All" checkbox
+        selectAllCheckbox.addEventListener('change', function() {
+            checkboxes.forEach(function(checkbox) {
+                // Set the state of each checkbox to match the "Select All" checkbox
+                checkbox.checked = selectAllCheckbox.checked;
+            });
+        });
+
+        // Add event listener to each checkbox (except "Select All" checkbox)
+        checkboxes.forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                // If any checkbox (except "Select All") is unchecked, uncheck the "Select All" checkbox
+                if (!this.checked) {
+                    selectAllCheckbox.checked = false;
+                }
+            });
+        });
+    </script>
+
+</body>
+<footer>
+
+    <div class="disclaimer">
+        <h2>Disclaimer:</h2>
+        <p>This app is not a substitute for actual legal advice. Please consult an Advocate before proceeding on acting on the information contained herein. To read the full advisory and understand your scope therein, please do your own due diligence.</p>
+    </div>
+</footer>
+</html>

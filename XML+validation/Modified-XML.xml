@@ -1,0 +1,385 @@
+<LegalRuleML xmlns="http://docs.oasis-open.org/legalruleml/ns/v1.0/" xmlns:lrml="http://docs.oasis-open.org/legalruleml/ns/v1.0/" xmlns:ruleml="http://ruleml.org/spec">
+
+<lrml:Statements key="textblock1">
+    <lrml:PrescriptiveStatement key="paragraph2">
+        <ruleml:Rule>
+            <ruleml:if>
+		<ruleml:And>
+                <ruleml:Atom key=":intermediaryORplatform">
+		    <ruleml:Var> Intermediary </ruleml:Var>
+		    <ruleml:Var> Platform </ruleml:Var>
+                </ruleml:Atom>
+                    <ruleml:Atom key=":useAIModelLLMGenerativeAISoftwareAlgorithm">
+                </ruleml:Atom>
+                <ruleml:Atom key = ":CResource">
+                </ruleml:Atom>
+		</ruleml:And>
+            </ruleml:if>
+            <ruleml:then>
+                <lrml:SuborderList>
+                    <lrml:Prohibition>
+			<ruleml:And>
+			    <ruleml:Atom>
+				<ruleml:Rel iri=":host"/>
+			    </ruleml:Atom>
+			    <ruleml:Atom>
+				<ruleml:Rel iri=":display"/>
+			    </ruleml:Atom>
+			    <ruleml:Atom>
+				<ruleml:Rel iri=":upload"/>
+			    </ruleml:Atom>
+			    <ruleml:Atom>
+				<ruleml:Rel iri=":modify"/>
+			    </ruleml:Atom>
+			    <ruleml:Atom>
+				<ruleml:Rel iri=":publish"/>
+			    </ruleml:Atom>
+			    <ruleml:Atom>
+				<ruleml:Rel iri=":transmit"/>
+			    </ruleml:Atom>
+			    <ruleml:Atom>
+				<ruleml:Rel iri=":store"/>
+			    </ruleml:Atom>
+			    <ruleml:Atom>
+				<ruleml:Rel iri=":update"/>
+			    </ruleml:Atom>
+			    <ruleml:Atom>
+				<ruleml:Rel iri=":share"/>
+			    </ruleml:Atom>
+
+			</ruleml:And>
+                    </lrml:Prohibition>
+                </lrml:SuborderList>
+            </ruleml:then>
+        </ruleml:Rule>
+    </lrml:PrescriptiveStatement>
+</lrml:Statements>
+
+<lrml:Statements key="textblock2">
+
+<lrml:PrescriptiveStatement key="paragraph3">
+
+  <ruleml:Rule>
+
+    <ruleml:if>
+
+     <ruleml:And>
+
+      <ruleml:Atom keyref=":intermediaryORplatform">
+
+			<ruleml:Var> Intermediary </ruleml:Var>
+		    <ruleml:Var> Platform </ruleml:Var>
+     </ruleml:Atom>
+                    <ruleml:Atom keyref=":useAIModelLLMGenerativeAISoftwareAlgorithm"/>
+                <ruleml:Atom keyref = ":CResource">
+                </ruleml:Atom>
+
+	 </ruleml:And>
+
+    </ruleml:if>
+
+    <ruleml:then>
+
+      <lrml:SuborderList>
+
+        <lrml:Prohibition>
+
+          <ruleml:Atom>
+
+            <ruleml:Rel iri=":permit"/>
+
+            <ruleml:Ind>bias</ruleml:Ind>
+
+          </ruleml:Atom>
+
+        </lrml:Prohibition>
+
+        <lrml:Prohibition>
+
+          <ruleml:Atom>
+
+            <ruleml:Rel iri=":permit"/>
+
+            <ruleml:Ind>discrimination</ruleml:Ind>
+
+          </ruleml:Atom>
+
+        </lrml:Prohibition>
+
+        <lrml:Prohibition>
+
+          <ruleml:Atom>
+
+            <ruleml:Rel iri=":threaten"/>
+
+            <ruleml:Ind>integrity of electoral process</ruleml:Ind>
+
+          </ruleml:Atom>
+
+        </lrml:Prohibition>
+
+      </lrml:SuborderList>
+
+    </ruleml:then>
+
+  </ruleml:Rule>
+
+</lrml:PrescriptiveStatement>
+
+</lrml:Statements>
+
+<lrml:Statements key="textblock3">
+
+<lrml:PrescriptiveStatement key="paragraph4">
+    <ruleml:Rule>
+        <ruleml:if>
+                     <ruleml:Atom keyref =":useAIModelLLMGenerativeAISoftwareAlgorithm">
+                <ruleml:Var> Under testing</ruleml:Var>
+                </ruleml:Atom>
+        </ruleml:if>
+        <ruleml:then>
+            <lrml:SuborderList>
+                <lrml:Obligation>
+                    <ruleml:Atom>
+                        <ruleml:Rel iri=":explicitPermission"/>
+                    </ruleml:Atom>
+                </lrml:Obligation>
+                <lrml:Obligation>
+                    <ruleml:Atom>
+                        <ruleml:Rel iri=":labelFallibility"/>
+                    </ruleml:Atom>
+                </lrml:Obligation>
+		<lrml:Obligation>
+			<ruleml:Atom>
+                        <ruleml:Rel iri=":consentPopupMechanism"/>
+                    </ruleml:Atom>
+		</lrml:Obligation>
+            </lrml:SuborderList>
+        </ruleml:then>
+    </ruleml:Rule>
+</lrml:PrescriptiveStatement>
+</lrml:Statements>
+
+
+<lrml:Statements key="textblock4">
+
+<lrml:PrescriptiveStatement key="paragraph5">
+
+<ruleml:Rule>
+
+<ruleml:if>
+
+<ruleml:Atom>
+
+<ruleml:Rel iri=":user"/>
+
+</ruleml:Atom>
+
+</ruleml:if>
+
+<ruleml:then>
+
+<lrml:SuborderList>
+
+<lrml:Obligation>
+
+<ruleml:Atom>
+
+<ruleml:Rel iri=":informUsers"/>
+
+</ruleml:Atom>
+
+</lrml:Obligation>
+
+<lrml:Prohibition>
+
+<ruleml:Atom>
+
+<ruleml:Rel iri=":dealUnlawfulInfo"/>
+
+</ruleml:Atom>
+
+</lrml:Prohibition>
+
+</lrml:SuborderList>
+
+</ruleml:then>
+
+</ruleml:Rule>
+
+</lrml:PrescriptiveStatement>
+</lrml:Statements>
+
+
+<lrml:Statements key="textblock5">
+
+<lrml:PrescriptiveStatement key="paragraph6">
+
+  <ruleml:Rule>
+
+    <ruleml:if>
+ <ruleml:And>
+
+      <ruleml:Atom keyref=":intermediaryORplatform">
+<ruleml:Var> Intermediary </ruleml:Var>
+
+      </ruleml:Atom>
+		<ruleml:Atom keyref = ":CResource">
+                </ruleml:Atom>
+		
+
+		<ruleml:Atom>
+                    <ruleml:Rel iri=":PermitsORfacilitates"/>
+                </ruleml:Atom>
+
+                <ruleml:Atom>
+
+        <ruleml:Rel iri=":misinformationDeepfake"/>
+
+      </ruleml:Atom>
+
+ </ruleml:And>
+
+    </ruleml:if>
+
+    <ruleml:then>
+
+
+      <lrml:SuborderList>
+
+        <lrml:Obligation>
+
+                    <ruleml:And>
+
+          <ruleml:Atom>
+
+            <ruleml:Rel iri=":labelEmbed"/>
+
+            <ruleml:Var>metadataIdentifier</ruleml:Var>
+
+          </ruleml:Atom>
+
+          <ruleml:Atom>
+
+            <ruleml:Rel iri=":identifyInformation"/>
+
+            <ruleml:Var>intermediary</ruleml:Var>
+
+            <ruleml:Var>user</ruleml:Var>
+
+            <ruleml:Var>creator</ruleml:Var>
+
+          </ruleml:Atom>
+
+            </ruleml:And>
+
+        </lrml:Obligation>
+
+      </lrml:SuborderList>
+
+
+
+    </ruleml:then>
+
+
+
+  </ruleml:Rule>
+
+</lrml:PrescriptiveStatement>
+
+</lrml:Statements>
+
+
+<lrml:Statements key="textblock6">
+
+<lrml:PrescriptiveStatement key="paragraph7">
+
+  <ruleml:Rule>
+
+    <ruleml:if>
+
+      <ruleml:Atom>
+
+        <ruleml:Rel iri=":nonCompliance"/>
+
+      </ruleml:Atom>
+
+    </ruleml:if>
+
+    <ruleml:then>
+
+      <lrml:SuborderList>
+
+        <lrml:Prohibition>
+
+          <ruleml:Atom>
+
+            <ruleml:Rel iri=":penalConsequences"/>
+
+          </ruleml:Atom>
+
+        </lrml:Prohibition>
+
+      </lrml:SuborderList>
+
+    </ruleml:then>
+
+  </ruleml:Rule>
+
+</lrml:PrescriptiveStatement>
+
+</lrml:Statements>
+
+
+<lrml:Statements key="textblock7">
+
+<lrml:PrescriptiveStatement key="paragraph8">
+
+  <ruleml:Rule>
+
+    <ruleml:if>
+
+      <ruleml:Atom keyref=":intermediaryORplatform">
+
+<ruleml:Var> Intermediary </ruleml:Var>
+		    <ruleml:Var> Platform </ruleml:Var>
+
+      </ruleml:Atom>
+
+    </ruleml:if>
+
+    <ruleml:then>
+
+      <lrml:SuborderList>
+
+        <lrml:Obligation>
+
+          <ruleml:Atom>
+
+            <ruleml:Rel iri=":ensureCompliance"/>
+
+          </ruleml:Atom>
+
+        </lrml:Obligation>
+
+        <lrml:Obligation>
+
+          <ruleml:Atom>
+
+            <ruleml:Rel iri=":submitReport"/>
+
+            <ruleml:Ind>15 days</ruleml:Ind>
+
+          </ruleml:Atom>
+
+        </lrml:Obligation>
+
+      </lrml:SuborderList>
+
+    </ruleml:then>
+
+  </ruleml:Rule>
+
+</lrml:PrescriptiveStatement>
+</lrml:Statements>
+</LegalRuleML>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Complianalyse (Proof of Concept)</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles.css') }}"></head>
+
+</head>
+
+<body>
+
+    <h2>Check which conditions apply and press submit to see list of compliances applicable to you on the next page</h2>
+    <form method="POST">
+        <div>
+                <label>
+            <input type="checkbox" id="select-all"> Select All
+        </label>
+    {% for key, value in conditions_applicable.items() %}
+            <br>
+                <input type="checkbox" id="{{ key }}" name="{{ key }}">
+                <label for="{{ key }}">{{ value }}</label>
+            </div>
+        {% endfor %}
+        <br>
+          <input type="submit" value="Submit">
+    </form>
+
+    {% if conditions_met %}
+    <ul>
+    {% for key in conditions_met %}
+
+
+        <li> {{ total_obligation_statements[key] }}</li>
+        <br>
+
+
+    </ul>
+            {% endfor %}
+
+
+    {%endif%}
+<script>
+        // Get the "Select All" checkbox
+        var selectAllCheckbox = document.getElementById('select-all');
+
+        // Get all checkboxes except for the "Select All" checkbox
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]:not(#select-all)');
+
+        // Add event listener to the "Select All" checkbox
+        selectAllCheckbox.addEventListener('change', function() {
+            checkboxes.forEach(function(checkbox) {
+                // Set the state of each checkbox to match the "Select All" checkbox
+                checkbox.checked = selectAllCheckbox.checked;
+            });
+        });
+
+        // Add event listener to each checkbox (except "Select All" checkbox)
+        checkboxes.forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                // If any checkbox (except "Select All") is unchecked, uncheck the "Select All" checkbox
+                if (!this.checked) {
+                    selectAllCheckbox.checked = false;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

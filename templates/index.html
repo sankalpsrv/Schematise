@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Complianalyse (PoC)</title>
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles.css') }}"></head>
+<body>
+<div class="container">
+    <h4>Welcome to the Proof of Concept for Complianalyse</h4>
+    <p>An app which works using LegalRuleML versions of laws to give users an insight into their compliance liabilities.</p>
+
+    <h3>The advisory on Artificial Intelligence issued by the Ministry of Electronics & Information Technology</h3>
+    <p>This was an advisory governing the usage of Artificial Intelligence circulated to a few significant social media intermediaries by the Ministry of Electronics and Information Technology in the first week of March, 2024.</p>
+    <p>Since the advisory creates obligations and does so succinctly, it was chosen to demonstrate a proof of concept for a compliance mapping application.</p>
+    <p>It is hoped that this will enable more people understand the indication that the Government of India is doing in a lucid manner as well as demonstrate the relationships between the concepts denoted.</p>
+
+    <div class="disclaimer">
+        <h2>Disclaimer:</h2>
+        <p>This app is not a substitute for actual legal advice. Please consult an Advocate before proceeding on acting on the information contained herein. To read the full advisory and understand your scope therein, please do your own due diligence.</p>
+    </div>
+
+    <p> <a href = "{{url_for ('selection') }}"> If you have read the disclaimer above and understand it, please go forward to the app by clicking here </a> </p>
+
+    <p>If you want to read the LegalRuleML version of the AI advisory go to the branch named "Complianalyse" in the following GitHub repository - <a href="https://github.com/sankalpsrv/Schematise" target="_blank">https://github.com/sankalpsrv/Schematise</a></p>
+</div>
+</body>
+</html>
