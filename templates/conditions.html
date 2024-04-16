@@ -19,9 +19,18 @@
             <br>
                 <input type="checkbox" id="{{ key }}" name="{{ key }}">
                 <label for="{{ key }}">{{ value }}</label>
-            </div>
+            <br>
         {% endfor %}
+
+            <h4><br>Below are the additional conditions applicable for the paragraphs you have selected, that are also necessary to select for compliance checklist generation
+                <br>(These are separate because they are subsets of the compliance requirements above)</h4>
+        {% for key, value in optional_conditions.items() %}
         <br>
+            <input type="checkbox" id="{{ key }}" name="{{ key }}">
+                <label for="{{ key }}">{{ value }}</label>
+        <br>
+            {% endfor %}
+            </div>
           <input type="submit" value="Submit">
     </form>
 
@@ -31,11 +40,9 @@
 
 
         <li> {{ total_obligation_statements[key] }}</li>
-        <br>
 
-
-    </ul>
             {% endfor %}
+    </ul>
 
 
     {%endif%}
