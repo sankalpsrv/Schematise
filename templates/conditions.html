@@ -35,6 +35,7 @@
     </form>
 
     {% if conditions_met %}
+    <b> Your obligations for the conditions you have submitted currently are as follows:</b>
     <ul>
     {% for key in conditions_met %}
 
@@ -46,6 +47,12 @@
 
 
     {%endif%}
+
+    {% if conditions_met|length == 0 %}
+
+    <b> You have no obligations for the conditions you have submitted currently.</b>
+
+    {% endif %}
 <script>
         // Get the "Select All" checkbox
         var selectAllCheckbox = document.getElementById('select-all');
