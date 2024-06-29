@@ -13,7 +13,7 @@ from langchain.prompts import PromptTemplate
 from langchain_core.prompts import ChatPromptTemplate
 
 
-from langchain_community.llms.huggingface_pipeline import HuggingFacePipeline
+#from langchain_community.llms.huggingface_pipeline import HuggingFacePipeline
 #from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline #Option for Llama2-7b-chat removed
 from langchain_openai import ChatOpenAI, OpenAI
 from langchain_core.example_selectors.base import BaseExampleSelector
